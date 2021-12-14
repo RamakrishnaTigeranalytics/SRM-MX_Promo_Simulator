@@ -474,8 +474,8 @@ this.checkboxMetrices.find(d=>{
             "param_promo_gap" : this.param_gap_max,
             "param_total_promo_min" : this.min_week,
             "param_total_promo_max":this.max_week,
-            "mars_tpr": decoded.map(d=>d.promo_depth),
-            "co_investment" : decoded.map(d=>d.co_investment),
+            "mars_tpr": decoded.map(d=>d.promo_price),
+            "cost_share" : decoded.map(d=>d.cost_share),
             "promo_mech" : decoded.map(d=>d.promo_mechanics),
             "config_mac" : mac != 1,
             "param_mac" : mac,
@@ -560,8 +560,8 @@ this.checkboxMetrices.find(d=>{
                         parseFloat(data.flag_promotype_motivation) , 
                         parseFloat(data.flag_promotype_n_pls_1),
                         parseFloat(data.flag_promotype_traffic),
-                        parseFloat(data.promo_depth) , 
-                        parseFloat(data.co_investment)
+                        parseFloat(data.promo_price) , 
+                        parseFloat(data.cost_share)
                     )
                     data.promotion_name = gen_promo
                     if(gen_promo && !this.promotions.includes(gen_promo)){
@@ -573,8 +573,8 @@ this.checkboxMetrices.find(d=>{
                         this.quarter_year.push(str);
                     }
                     
-                    data.promo_depth = parseInt(data.promo_depth)
-                    data.co_investment = (data.co_investment)
+                    data.promo_price = parseInt(data.promo_price)
+                    data.cost_share = (data.cost_share)
     
                 })
 

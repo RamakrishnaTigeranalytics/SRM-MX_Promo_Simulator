@@ -5,4 +5,5 @@ export interface FilterModel {
    brand : string
    brand_format : string
    product_group : string
+   sub_segment :string
   }

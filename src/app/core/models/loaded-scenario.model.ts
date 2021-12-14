@@ -1,7 +1,7 @@
 export interface PromoSimulatedWeeklyModel{
     asp: number;
-    promo_depth:number;
-    co_investment:number;
+    promo_price:number;
+    cost_share:number;
 base_unit: number;
 date: string;
 year:string;

@@ -23,9 +23,15 @@
     <nwn-filter-categories [filter_model]="filter_model" (closeModal)="close($event)" (filterApply)="filterApply($event)" (categoryChange) = "categoryChange($event)" [categories] = "categories"></nwn-filter-categories>
 </nwn-modal>
 <!-- Filter Strategic Cell -->
-<nwn-modal id="filter-stragetic-cells" class="hidden">
+<!-- <nwn-modal id="filter-stragetic-cells" class="hidden">
     <nwn-filter-stragetic-cells [filter_model]="filter_model" (closeModal)="close($event)" (filterApply)="filterApply($event)" (strategicCellChange) = "strategicCellChange($event)" [stragetic_cells] = "strategic_cell"></nwn-filter-stragetic-cells>
+</nwn-modal> -->
+
+<!-- Filter Subsegment -->
+<nwn-modal id="filter-sub-segment" class="hidden">
+    <nwn-filter-sub-segment [filter_model]="filter_model" (closeModal)="close($event)" (filterApply)="filterApply($event)" (subSegmentChange) = "subSegmentChange($event)" [sub_Segments] = "sub_Segment"></nwn-filter-sub-segment>
 </nwn-modal>
+
 <!-- Filter Brands -->
 <nwn-modal id="filter-brands" class="hidden">
     <nwn-filter-brands [filter_model]="filter_model"  (closeModal)="close($event)" (filterApply)="filterApply($event)" (brandChange) = "brandChange($event)"  [brands] = "brands"></nwn-filter-brands>

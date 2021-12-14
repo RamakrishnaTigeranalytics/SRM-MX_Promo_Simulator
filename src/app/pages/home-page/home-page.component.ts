@@ -15,7 +15,7 @@ export class HomePageComponent implements OnInit {
   constructor(private router: Router , private authService : AuthService) { }
 
   ngOnInit(): void {
-    debugger
+    // debugger
     this.user=this.authService.userObservable.getValue()
     this.groups = this.user.user.groups.map(d=>d.name)
     console.log(this.user , "user value inhome page")

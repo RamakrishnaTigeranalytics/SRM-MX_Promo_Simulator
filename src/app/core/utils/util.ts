@@ -216,6 +216,7 @@ export function generateMessageRandom(index: any,financial_metrics,metric1: any,
 }
 
 export function generateMessageRandomSimulator(index: any,financial_metrics,metric1: any,metric2: any,metric3 :any){
+  // debugger
   let result1:any = ''
   let result2:any = ''
   let result3:any = ''
@@ -315,45 +316,48 @@ export function decodePromotion(promo_name:string){
   // debugger
   let obj ={
     "promo_mechanics" : "",
-    "promo_depth" : 0,
-    "co_investment":0
+    "promo_price" : 0,
+    "cost_share":0,
+    "vol_on_deal":0
 
   }
   if(promo_name.includes("N+1")){
     obj["promo_mechanics"] = "N+1"
     let arr:Array<any>|null = promo_name.match(regex) 
     if(arr?.length ==3){
-      obj["promo_depth"] = parseFloat(arr[1])
-      obj["co_investment"] = parseFloat(arr[2])
+      obj["promo_price"] = parseFloat(arr[1])
+      obj["cost_share"] = parseFloat(arr[2])
       
     }
     if(arr?.length ==2){
-      obj["promo_depth"] = parseFloat(arr[1])
-      obj["co_investment"] = 0
+      obj["promo_price"] = parseFloat(arr[1])
+      obj["cost_share"] = 0
     }
   }
   else if(promo_name.includes("Motivation")){
     let arr:Array<any>|null = promo_name.match(regex) 
     obj["promo_mechanics"] = "Motivation"
-    if(arr?.length ==2){
-      obj["promo_depth"] = parseFloat(arr[0])
-      obj["co_investment"] = parseFloat(arr[1])
+    if(arr?.length ==3){
+      obj["promo_price"] = parseFloat(arr[0])
+      obj["cost_share"] = parseFloat(arr[1])
+      obj["vol_on_deal"] = parseFloat(arr[2])
     }
     if(arr?.length ==1){
-      obj["promo_depth"] = parseFloat(arr[0])
-      obj["co_investment"] = 0
+      obj["promo_price"] = parseFloat(arr[0])
+      obj["cost_share"] = 0
     }
   }
   else if(promo_name.includes("Traffic")){
     let arr:Array<any>|null = promo_name.match(regex)
     obj["promo_mechanics"] = "Traffic"
-    if(arr?.length ==2){
-      obj["promo_depth"] = parseFloat(arr[0])
-      obj["co_investment"] = parseFloat(arr[1])
+    if(arr?.length ==3){
+      obj["promo_price"] = parseFloat(arr[0])
+      obj["cost_share"] = parseFloat(arr[1])
+      obj["vol_on_deal"] = parseFloat(arr[2])
     }
     if(arr?.length ==1){
-      obj["promo_depth"] = parseFloat(arr[0])
-      obj["co_investment"] = 0
+      obj["promo_price"] = parseFloat(arr[0])
+      obj["cost_share"] = 0
     }
   }
   else if(promo_name.includes("TPR")){
@@ -361,18 +365,19 @@ export function decodePromotion(promo_name:string){
     
     obj["promo_mechanics"] = "TPR"
     let arr:Array<any>|null = promo_name.match(regex)
-    if(arr?.length ==2){
-      obj["promo_depth"] = parseFloat(arr[0])
-      obj["co_investment"] = parseFloat(arr[1])
+    if(arr?.length ==3){
+      obj["promo_price"] = parseFloat(arr[0])
+      obj["cost_share"] = parseFloat(arr[1])
+      obj["vol_on_deal"] = parseFloat(arr[2])
     }
-    if(arr?.length ==1){
+    if(arr?.length ==2){
       if(promo_name.includes("Co")){
-        obj["promo_depth"] = 0
-        obj["co_investment"] = parseFloat(arr[0])
+        obj["promo_price"] = 0
+        obj["cost_share"] = parseFloat(arr[0])
       }
       else{
-        obj["promo_depth"] = parseFloat(arr[0])
-        obj["co_investment"] = 0
+        obj["promo_price"] = parseFloat(arr[0])
+        obj["cost_share"] = 0
 
       }
      
@@ -383,7 +388,7 @@ export function decodePromotion(promo_name:string){
 }
 
 
-export function genratePromotion(motivation , n_plus_1, traffic , promo_depth , co_inv ){
+export function genratePromotion(motivation , n_plus_1, traffic , promo_price , co_inv,vol_on_deal? ){
   let promo_name = "TPR"
   let promo_string = ""
   // debugger
@@ -398,16 +403,24 @@ export function genratePromotion(motivation , n_plus_1, traffic , promo_depth , 
   else if(traffic){
     promo_name = "Traffic"
   }
-  if(promo_depth){
-promo_string+=promo_name + "-" + promo_depth + "%"
+  if(promo_price){
+  promo_string+=promo_name + "-" + promo_price + ""
   }
   if(co_inv){
-    if(promo_depth){
+    if(promo_price){
       promo_string+= " (Co-"+co_inv+"%)"
     }
     else{
       promo_string+=promo_name + " (Co-"+co_inv+"%)"
 
+    }
+   
+  }
+  if(vol_on_deal){
+    if(promo_price){
+      promo_string+= " (Vol-"+vol_on_deal+"%)"
+    }else {
+      promo_string+=promo_name + " (Vol-"+vol_on_deal+"%)"
     }
    
   }

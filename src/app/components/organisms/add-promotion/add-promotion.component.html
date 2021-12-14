@@ -43,7 +43,7 @@
             </div> -->
         </div>
         <div class="px-6 py-2">
-            <label for="promoname">Discount depth
+            <label for="promoname">Promo price
                 <!-- <span class="mandatory-fields">*</span> -->
             </label>
             <div class="custom-slider pt-4 pb-6">
@@ -52,7 +52,7 @@
             
         </div>
         <div class="px-6 py-2">
-            <label for="promoname">Co-investment depth
+            <label for="promoname">Cost share
                 <!-- <span class="mandatory-fields">*</span> -->
             </label>
             <div class="custom-slider pt-4 pb-6">
@@ -60,6 +60,15 @@
             </div>
             <span *ngIf="errMsg.discount" class="err-msg">Please select the discount depth or co investment</span>
             <!-- <span *ngIf="errMsg.co_investment" class="err-msg">Please select the co-investment depth</span> -->
+        </div>
+        <div class="px-6 py-2">
+            <label for="promoname">Volume on deal
+                <!-- <span class="mandatory-fields">*</span> -->
+            </label>
+            <div class="custom-slider pt-4 pb-6">
+                <ngx-slider [(value)]="valueVolumeondeal"  [options]="volumeOndeal"></ngx-slider>
+            </div>
+            
         </div>
         <div class="px-6 py-2">
             <nwn-text-input nwnTextInput="text" [placeholder]="promo_generated" [error]="true"

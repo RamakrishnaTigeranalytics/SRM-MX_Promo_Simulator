@@ -162,6 +162,7 @@ import {ApplyAllPopupComponent} from "./molecules/apply-all-popup/apply-all-popu
 import {PricingMetricIpComponent} from "./molecules/pricing-metric-ip/pricing-metric-ip.component"
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
+import { FilterSubSegmentComponent } from './organisms/filter-sub-segment/filter-sub-segment.component';
 
 
 @NgModule({
@@ -310,7 +311,8 @@ import { MatInputModule } from '@angular/material/input';
         SubTabsComponent,
         PricingMetricInputComponent,
         PricingMetricIpComponent,
-        ApplyAllPopupComponent
+        ApplyAllPopupComponent,
+        FilterSubSegmentComponent
     ],
     exports: [
         ButtonComponent,
@@ -362,6 +364,7 @@ import { MatInputModule } from '@angular/material/input';
         CellItemDirective,
         FilterCategoriesComponent,
         FilterStrageticCellsComponent,
+        FilterSubSegmentComponent,
         FilterBrandsComponent,
         FilterBrandsFormatsComponent,
         FilterProductGroupsComponent,

@@ -17,7 +17,7 @@ export class AddPromotionComponent implements OnInit {
     errMsg:any = {
         mechanic: false,
         discount: false,
-        co_investment: false
+        cost_share: false
     }
     constructor(private toastr: ToastrService,private optimize : OptimizerService,public modalService: ModalService,public restApi: SimulatorService){
 
@@ -34,7 +34,8 @@ export class AddPromotionComponent implements OnInit {
     form = new FormGroup({
         promo: new FormControl('', []),
         tpr:new FormControl(0,[]),
-        co_inv : new FormControl(0,[])
+        co_inv : new FormControl(0,[]),
+        vol_on_deal : new FormControl(0,[]),
       });
     @Input()
     valueDiscountdepth = 0;
@@ -43,9 +44,12 @@ export class AddPromotionComponent implements OnInit {
     valueCoInvestment = 0;
 
     @Input()
+    valueVolumeondeal = 0;
+
+    @Input()
     discountdepth: Options = {
         floor: 0,
-        ceil: 100,
+        ceil: 200,
         showSelectionBar: true,
         disabled: true,
         translate: (value: number, label: LabelType): string => {
@@ -56,9 +60,9 @@ export class AddPromotionComponent implements OnInit {
            
             switch (label) {
                 case LabelType.Ceil:
-                    return value + ' %';
+                    return value + ' ';
                 case LabelType.Floor:
-                    return value + ' %';
+                    return value + ' ';
                 default:
                     return '' + value;
             }
@@ -86,6 +90,28 @@ export class AddPromotionComponent implements OnInit {
             }
         },  
     };
+    volumeOndeal: Options = {
+        floor: 0,
+        ceil: 100,
+        showSelectionBar: true,
+        disabled: true,
+        translate: (value: number, label: LabelType): string => {
+            if(value!=100){
+                this.form.controls['vol_on_deal'].setValue(value);
+
+            }
+           
+             
+            switch (label) {
+                case LabelType.Ceil:
+                    return value + ' %';
+                case LabelType.Floor:
+                    return value + ' %';
+                default:
+                    return '' + value;
+            }
+        },  
+    };
     get f(){
         return this.form.controls;
       }
@@ -97,6 +123,7 @@ export class AddPromotionComponent implements OnInit {
                 console.log(data , "promotion modal.................................")
                 this.valueCoInvestment = 0
                 this.valueDiscountdepth = 0
+                this.valueVolumeondeal = 0;
                 this.form.reset()
                 // this.form.reset()
             }
@@ -108,13 +135,13 @@ export class AddPromotionComponent implements OnInit {
         search: true,
     };
     this.form.valueChanges.subscribe(data=>{
-     
     let final = Utils.genratePromotion(
         data.promo == "Motivation" ? 1 : 0,
         data.promo == "N+1" ? 1 : 0,
         data.promo == "Traffic" ? 1 : 0,
      data.tpr,
-     data.co_inv
+     data.co_inv,
+     data.vol_on_deal
     )
     setTimeout(()=>{
         this.base_line_promotions = this.optimize.get_base_line_promotions().map(e=>({"value" : e,"checked" : false}))
@@ -202,12 +229,13 @@ export class AddPromotionComponent implements OnInit {
             }
         }
        
-        this.valueCoInvestment = 0
-        this.valueDiscountdepth = 0
+        this.valueCoInvestment = 0;
+        this.valueDiscountdepth = 0;
+        this.valueVolumeondeal =0;
         this.form.reset()
         this.errMsg.mechanic = false
         this.errMsg.discount = false
-        this.errMsg.co_investment = false
+        this.errMsg.cost_share = false
         
         // console.log(this.promo_generated , "promotion generated")
     }
@@ -231,13 +259,15 @@ export class AddPromotionComponent implements OnInit {
         console.log(e.value.length , "lenth of sselscted promotion")
         if(e.value.length == 0){
             this.coInvestment = Object.assign({}, this.coInvestment, {disabled: true})
+            this.volumeOndeal = Object.assign({}, this.volumeOndeal, {disabled: true})
         this.discountdepth = Object.assign({}, this.discountdepth, {disabled: true});
         this.valueDiscountdepth = 0
         this.valueCoInvestment = 0
-
+        this.valueVolumeondeal = 0
         }
         else{
             this.coInvestment = Object.assign({}, this.coInvestment, {disabled: false})
+            this.volumeOndeal = Object.assign({}, this.volumeOndeal, {disabled: false})
         this.discountdepth = Object.assign({}, this.discountdepth, {disabled: false});
 
         }

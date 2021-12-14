@@ -255,7 +255,7 @@ export class PromoOptimizerAggregatedComponent implements OnInit, AfterViewInit 
                 month: durationObj.month,
                 year: durationObj.year,
                 name: 'W'+ week + ' '+ durationObj.year,
-                discount: optimizerResponse.base.weekly[i].promo_depth/100,
+                discount: optimizerResponse.base.weekly[i].promo_price/100,
                 holiday: holiday,
                 seasonality: this.getSeasonality(optimizerResponse.base.weekly[i].si),
                 si : (optimizerResponse.base.weekly[i].si).toFixed(2),
@@ -270,7 +270,7 @@ export class PromoOptimizerAggregatedComponent implements OnInit, AfterViewInit 
                 month: durationObj.month,
                 year: durationObj.year,
                 name: 'W'+ week + ' '+ durationObj.year,
-                discount: optimizerResponse.simulated.weekly[i].promo_depth/100,
+                discount: optimizerResponse.simulated.weekly[i].promo_price/100,
                 holiday: holiday,
                 seasonality: this.getSeasonality(optimizerResponse.simulated.weekly[i].si),
                 si: (optimizerResponse.simulated.weekly[i].si).toFixed(2),
@@ -477,16 +477,16 @@ export class PromoOptimizerAggregatedComponent implements OnInit, AfterViewInit 
             for(let i = 0; i < weeks; i++){
                 let promotion_value = ''
                 if(data['base']['weekly'][i]['flag_promotype_motivation'] == 1){
-                    promotion_value = 'Motivation - '+data['base']['weekly'][i]['promo_depth']+'%';
+                    promotion_value = 'Motivation - '+data['base']['weekly'][i]['promo_price']+'%';
                 }
                 else if(data['base']['weekly'][i]['flag_promotype_n_pls_1'] == 1){
-                    promotion_value = 'N+1 - '+data['base']['weekly'][i]['promo_depth']+'%';
+                    promotion_value = 'N+1 - '+data['base']['weekly'][i]['promo_price']+'%';
                 }
                 else if(data['base']['weekly'][i]['flag_promotype_traffic'] == 1){
-                    promotion_value = 'Traffic - '+data['base']['weekly'][i]['promo_depth']+'%';
+                    promotion_value = 'Traffic - '+data['base']['weekly'][i]['promo_price']+'%';
                 }
                 else{
-                    promotion_value = 'TPR - '+data['base']['weekly'][i]['promo_depth']+'%';
+                    promotion_value = 'TPR - '+data['base']['weekly'][i]['promo_price']+'%';
                 }
                 // debugger
 
@@ -523,16 +523,16 @@ export class PromoOptimizerAggregatedComponent implements OnInit, AfterViewInit 
                     'promotions': {
                         'promotion_value' : Utils.genratePromotion(
                             data['base']['weekly'][i]['flag_promotype_motivation'],data['base']['weekly'][i]['flag_promotype_n_pls_1'],
-                            data['base']['weekly'][i]['flag_promotype_traffic'],data['base']['weekly'][i]['promo_depth'],
-                            data['base']['weekly'][i]['co_investment']
+                            data['base']['weekly'][i]['flag_promotype_traffic'],data['base']['weekly'][i]['promo_price'],
+                            data['base']['weekly'][i]['cost_share']
 
 
                         )
                         ,
                         'promotion_value_simulated':  Utils.genratePromotion(
                             data['simulated']['weekly'][i]['flag_promotype_motivation'],data['simulated']['weekly'][i]['flag_promotype_n_pls_1'],
-                            data['simulated']['weekly'][i]['flag_promotype_traffic'],data['simulated']['weekly'][i]['promo_depth'],
-                            data['simulated']['weekly'][i]['co_investment']
+                            data['simulated']['weekly'][i]['flag_promotype_traffic'],data['simulated']['weekly'][i]['promo_price'],
+                            data['simulated']['weekly'][i]['cost_share']
 
 
                         )

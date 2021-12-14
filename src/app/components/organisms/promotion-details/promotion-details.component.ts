@@ -14,7 +14,7 @@ export class PromotionDetailsComponent implements OnInit {
     errMsg:any = {
         mechanic: false,
         discount: false,
-        co_investment: false
+        cost_share: false
     }
     input_promotions:Array<CheckboxModel> = []
     @Output()

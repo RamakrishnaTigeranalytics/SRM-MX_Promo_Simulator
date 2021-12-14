@@ -14,7 +14,7 @@ export class PricingScenarioBuilderComponent implements OnInit {
     hidepanel = true
     product:Product[] = []
     filter_model : FilterModel = {"retailer" : "Retailers" , "brand" : 'Brands' , "brand_format" : 'Brand Formats' ,
-    "category" : 'Category' , "product_group" : 'Product groups' , "strategic_cell" :  'Strategic cells'}
+    "category" : 'Category' , "product_group" : 'Product groups' , "strategic_cell" :  'Strategic cells', "sub_segment" :  'Subsegment'}
     selected_retailer:string[] = [] as any
     selected_product:string[] = [] as any
     selected_category:string[] = [] as any
@@ -211,7 +211,7 @@ export class PricingScenarioBuilderComponent implements OnInit {
         console.log(this.count_ret , "count ret ater resrt")
         
         this.filter_model =  {"retailer" : "Retailers" , "brand" : 'Brands' , "brand_format" : 'Brand Formats' ,
-        "category" : 'Category' , "product_group" : 'Product groups' , "strategic_cell" :  'Strategic cells'}
+        "category" : 'Category' , "product_group" : 'Product groups' , "strategic_cell" :  'Strategic cells', "sub_segment" :  'Subsegment'}
         
     }
     openModal(id: string) {

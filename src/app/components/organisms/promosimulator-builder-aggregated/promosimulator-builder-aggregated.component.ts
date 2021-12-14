@@ -30,7 +30,7 @@ export class PromosimulatorBuilderAggregatedComponent implements OnInit, AfterVi
 
     baseline:any
     incrementalLift:any 
-    lsv:any
+    gsv:any
     nsv:any
     mac:any
     mac_nsv:any
@@ -98,6 +98,7 @@ export class PromosimulatorBuilderAggregatedComponent implements OnInit, AfterVi
         this.aggregatedGraphWidth = window.innerWidth - 155;
         // this.loadStimulatedData()
         this.optimize.getSimulatedDataObservable().subscribe((data: any) => {
+            // debugger
             if(data){
                 this.index = Math.floor(Math.random() * (2 - 1 + 1)) + 1;
                 // console.log(data , "holiday information with data")
@@ -181,7 +182,7 @@ export class PromosimulatorBuilderAggregatedComponent implements OnInit, AfterVi
             this.plChartData = [
                 { group: 'RSV w/o VAT', base: data['base']['total']['total_rsv_w_o_vat'], simulated: data['simulated']['total']['total_rsv_w_o_vat'] },
                 { group: 'Trade Margin', base: data['base']['total']['rp'], simulated: data['simulated']['total']['rp'] },
-                { group: 'LSV', base: data['base']['total']['lsv'], simulated: data['simulated']['total']['lsv'] },
+                { group: 'GSV', base: data['base']['total']['gsv'], simulated: data['simulated']['total']['gsv'] },
                 { group: 'Trade Expense', base: data['base']['total']['te'], simulated: data['simulated']['total']['te'] },
                 { group: 'NSV', base: data['base']['total']['nsv'], simulated: data['simulated']['total']['nsv'] },
                 { group: 'COGS', base: data['base']['total']['cogs'], simulated: data['simulated']['total']['cogs'] },
@@ -215,13 +216,13 @@ export class PromosimulatorBuilderAggregatedComponent implements OnInit, AfterVi
                 "color": this.colorForDifference(data['base']['total']['increment_units'] , data['simulated']['total']['increment_units']) 
             }
 
-            this.lsv = {
-                "converted_base": Utils.formatNumber(data['base']['total']['lsv'],true,false),
-                "converted_simulated": Utils.formatNumber(data['simulated']['total']['lsv'],true,false),
-                "arrow":  data['simulated']['total']['lsv'] > data['base']['total']['lsv'] ?  'carret-up' : 'carret-down' ,
-                "percent": "(" + Utils.percentageDifference(data['simulated']['total']['lsv'],data['base']['total']['lsv']) + "%)",
-                "converted_difference": "(" + Utils.formatNumber(data['simulated']['total']['lsv']-data['base']['total']['lsv'],true,false) + ")",
-                "color": this.colorForDifference(data['base']['total']['lsv'],data['simulated']['total']['lsv']),
+            this.gsv = {
+                "converted_base": Utils.formatNumber(data['base']['total']['gsv'],true,false),
+                "converted_simulated": Utils.formatNumber(data['simulated']['total']['gsv'],true,false),
+                "arrow":  data['simulated']['total']['gsv'] > data['base']['total']['gsv'] ?  'carret-up' : 'carret-down' ,
+                "percent": "(" + Utils.percentageDifference(data['simulated']['total']['gsv'],data['base']['total']['gsv']) + "%)",
+                "converted_difference": "(" + Utils.formatNumber(data['simulated']['total']['gsv']-data['base']['total']['gsv'],true,false) + ")",
+                "color": this.colorForDifference(data['base']['total']['gsv'],data['simulated']['total']['gsv']),
             }
             this.nsv = {
                 "converted_base": Utils.formatNumber(data['base']['total']['nsv'],true,false),
@@ -277,9 +278,9 @@ export class PromosimulatorBuilderAggregatedComponent implements OnInit, AfterVi
             }
 
             this.te_lsv = {
-                "converted_base": Utils.formatNumber(data['base']['total']['te_percent_of_lsv'],true,true),
-                "converted_simulated": Utils.formatNumber(data['simulated']['total']['te_percent_of_lsv'],true,true),
-                "arrow":  data['simulated']['total']['te_percent_of_lsv'] > data['base']['total']['te_percent_of_lsv'] ?  'carret-up' : 'carret-down' ,
+                "converted_base": Utils.formatNumber(data['base']['total']['te_percent_of_gsv'],true,true),
+                "converted_simulated": Utils.formatNumber(data['simulated']['total']['te_percent_of_gsv'],true,true),
+                "arrow":  data['simulated']['total']['te_percent_of_gsv'] > data['base']['total']['te_percent_of_gsv'] ?  'carret-up' : 'carret-down' ,
                 "percent": "(" + Utils.formatNumber(data['simulated']['total']['te']-data['base']['total']['te'],false,true) + "%)",
                 "converted_difference": "(" + Utils.formatNumber(data['simulated']['total']['te']-data['base']['total']['te'],false,true) + ")",
                 "color": this.colorForDifference( data['simulated']['total']['te'],data['base']['total']['te']),
@@ -293,14 +294,14 @@ export class PromosimulatorBuilderAggregatedComponent implements OnInit, AfterVi
                 "color": this.colorForDifference( data['simulated']['total']['te_per_unit'],data['base']['total']['te_per_unit']),
             }
 
-            this.roi = {
-                "converted_base": Utils.formatNumber(data['base']['total']['roi'],true,false),
-                "converted_simulated": Utils.formatNumber(data['simulated']['total']['roi'],true,false),
-                "arrow": data['simulated']['total']['roi'] > data['base']['total']['roi'] ?  'carret-up' : 'carret-down' ,
-                "percent": "(" + Utils.percentageDifference(data['simulated']['total']['roi'],data['base']['total']['roi']) + "%)",
-                "converted_difference": "(" + Utils.formatNumber(data['simulated']['total']['roi']-data['base']['total']['roi'],true,false) + ")",
-                "color":  this.colorForDifference(data['base']['total']['roi'] , data['simulated']['total']['roi']),
-            }
+            // this.roi = {
+            //     "converted_base": Utils.formatNumber(data['base']['total']['roi'],true,false),
+            //     "converted_simulated": Utils.formatNumber(data['simulated']['total']['roi'],true,false),
+            //     "arrow": data['simulated']['total']['roi'] > data['base']['total']['roi'] ?  'carret-up' : 'carret-down' ,
+            //     "percent": "(" + Utils.percentageDifference(data['simulated']['total']['roi'],data['base']['total']['roi']) + "%)",
+            //     "converted_difference": "(" + Utils.formatNumber(data['simulated']['total']['roi']-data['base']['total']['roi'],true,false) + ")",
+            //     "color":  this.colorForDifference(data['base']['total']['roi'] , data['simulated']['total']['roi']),
+            // }
           
 
             this.asp = {
@@ -314,14 +315,14 @@ export class PromosimulatorBuilderAggregatedComponent implements OnInit, AfterVi
 
             // debugger
 
-            this.promo_asp = {
-                "converted_base": Utils.formatNumber(data['base']['total']['avg_promo_selling_price'],true,false),
-                "converted_simulated": Utils.formatNumber(data['simulated']['total']['avg_promo_selling_price'],true,false),
-                "arrow": data['simulated']['total']['asp'] > data['base']['total']['asp'] ?  'carret-up' : 'carret-down' ,
-                "percent": "(" + Utils.percentageDifference(data['simulated']['total']['avg_promo_selling_price'],data['base']['total']['avg_promo_selling_price']) + "%)",
-                "converted_difference": "(" + Utils.formatNumber(Math.round(data['simulated']['total']['avg_promo_selling_price'])-Math.round(data['base']['total']['avg_promo_selling_price']),true,false) + ")",
-                "color":  this.colorForDifference(data['base']['total']['avg_promo_selling_price'] , data['simulated']['total']['avg_promo_selling_price']),
-            }
+            // this.promo_asp = {
+            //     "converted_base": Utils.formatNumber(data['base']['total']['avg_promo_selling_price'],true,false),
+            //     "converted_simulated": Utils.formatNumber(data['simulated']['total']['avg_promo_selling_price'],true,false),
+            //     "arrow": data['simulated']['total']['asp'] > data['base']['total']['asp'] ?  'carret-up' : 'carret-down' ,
+            //     "percent": "(" + Utils.percentageDifference(data['simulated']['total']['avg_promo_selling_price'],data['base']['total']['avg_promo_selling_price']) + "%)",
+            //     "converted_difference": "(" + Utils.formatNumber(Math.round(data['simulated']['total']['avg_promo_selling_price'])-Math.round(data['base']['total']['avg_promo_selling_price']),true,false) + ")",
+            //     "color":  this.colorForDifference(data['base']['total']['avg_promo_selling_price'] , data['simulated']['total']['avg_promo_selling_price']),
+            // }
              
             this.rsvWithoutVat = {
                 "converted_base": Utils.formatNumber(data['base']['total']['total_rsv_w_o_vat'],true,false),
@@ -375,15 +376,15 @@ export class PromosimulatorBuilderAggregatedComponent implements OnInit, AfterVi
                     data['base']['weekly'][i]['flag_promotype_motivation'],
                     data['base']['weekly'][i]['flag_promotype_n_pls_1'],
                     data['base']['weekly'][i]['flag_promotype_traffic'],
-                    data['base']['weekly'][i]['promo_depth'],
-                    data['base']['weekly'][i]['co_investment']
+                    data['base']['weekly'][i]['promo_price'],
+                    data['base']['weekly'][i]['cost_share']
                 )
                 promotion_value_simulated =  Utils.genratePromotion(
                     data['simulated']['weekly'][i]['flag_promotype_motivation'],
                     data['simulated']['weekly'][i]['flag_promotype_n_pls_1'],
                     data['simulated']['weekly'][i]['flag_promotype_traffic'],
-                    data['simulated']['weekly'][i]['promo_depth'],
-                    data['simulated']['weekly'][i]['co_investment']
+                    data['simulated']['weekly'][i]['promo_price'],
+                    data['simulated']['weekly'][i]['cost_share']
                 )
                 // if(data['base']['weekly'][i]['flag_promotype_motivation'] == 1){
                 //     promotion_value = 'Motivation - '+data['base']['weekly'][i]['promo_depth']+'%';
@@ -404,16 +405,16 @@ export class PromosimulatorBuilderAggregatedComponent implements OnInit, AfterVi
                         'week':"Week "+(i+1),
                         'date': data['simulated']['weekly'][i].date,
                         "si" : data['simulated']['weekly'][i].si,
-                        "holiday" :this.get_holiday_calendar(data['holiday_calendar'][i][i+1])
+                        //"holiday" :this.get_holiday_calendar(data['holiday_calendar'][i][i+1])
                         //  this.get_holiday_information(data['base']['weekly'][i].holiday , 
                         // data['holiday_array']
                         // )
-                          , 
+                         // , 
                     },
                     'promotions': {
                         'promotion_value' : promotion_value,
                         'promotion_value_simulated' : promotion_value_simulated,
-                        'coinvestment': data['base']['weekly'][i]['co_investment']
+                        'coinvestment': data['base']['weekly'][i]['cost_share']
                     },
                     'predicted_units': {
                         "converted_base": Utils.formatNumber(data['base']['weekly'][i]['predicted_units'],true,false),
@@ -448,12 +449,12 @@ export class PromosimulatorBuilderAggregatedComponent implements OnInit, AfterVi
                         "color":  this.colorForDifference(data['base']['weekly'][i]['total_weight_in_tons'] , data['simulated']['weekly'][i]['total_weight_in_tons']),
                     },
                     'total_lsv': {
-                        "converted_base": Utils.formatNumber(data['base']['weekly'][i]['total_lsv'],true,false),
-                        "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['total_lsv'],true,false),
-                        "arrow": data['simulated']['weekly'][i]['total_lsv'] > data['base']['weekly'][i]['total_lsv'] ?  'carret-up' : 'carret-down' ,
-                        "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['total_lsv'],data['base']['weekly'][i]['total_lsv']) + "%)",
-                        "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['total_lsv']-data['base']['weekly'][i]['total_lsv'],true,false) + ")",
-                        "color":  this.colorForDifference(data['base']['weekly'][i]['total_lsv'] , data['simulated']['weekly'][i]['total_lsv']),
+                        "converted_base": Utils.formatNumber(data['base']['weekly'][i]['total_gsv'],true,false),
+                        "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['total_gsv'],true,false),
+                        "arrow": data['simulated']['weekly'][i]['total_gsv'] > data['base']['weekly'][i]['total_gsv'] ?  'carret-up' : 'carret-down' ,
+                        "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['total_gsv'],data['base']['weekly'][i]['total_gsv']) + "%)",
+                        "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['total_gsv']-data['base']['weekly'][i]['total_gsv'],true,false) + ")",
+                        "color":  this.colorForDifference(data['base']['weekly'][i]['total_gsv'] , data['simulated']['weekly'][i]['total_gsv']),
                     },
                     'total_nsv': {
                         "converted_base": Utils.formatNumber(data['base']['weekly'][i]['total_nsv'],true,false),
@@ -463,30 +464,30 @@ export class PromosimulatorBuilderAggregatedComponent implements OnInit, AfterVi
                         "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['total_nsv']-data['base']['weekly'][i]['total_nsv'],true,false) + ")",
                         "color":  this.colorForDifference(data['base']['weekly'][i]['total_nsv'] , data['simulated']['weekly'][i]['total_nsv']),
                     },
-                    'mars_mac_percent_of_nsv': {
-                        "converted_base": Utils.formatNumber(data['base']['weekly'][i]['mars_mac_percent_of_nsv'],true,false),
-                        "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['mars_mac_percent_of_nsv'],true,false),
-                        "arrow": data['simulated']['weekly'][i]['mars_mac_percent_of_nsv'] > data['base']['weekly'][i]['mars_mac_percent_of_nsv'] ?  'carret-up' : 'carret-down' ,
-                        "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['mars_mac_percent_of_nsv'],data['base']['weekly'][i]['mars_mac_percent_of_nsv']) + "%)",
-                        "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['mars_mac_percent_of_nsv']-data['base']['weekly'][i]['mars_mac_percent_of_nsv'],true,false) + ")",
-                        "color":  this.colorForDifference(data['base']['weekly'][i]['mars_mac_percent_of_nsv'] , data['simulated']['weekly'][i]['mars_mac_percent_of_nsv']),
-                    },
-                    'trade_expense': {
-                        "converted_base": Utils.formatNumber(data['base']['weekly'][i]['trade_expense'],true,false),
-                        "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['trade_expense'],true,false),
-                        "arrow": data['simulated']['weekly'][i]['trade_expense'] > data['base']['weekly'][i]['trade_expense'] ?  'carret-up' : 'carret-down' ,
-                        "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['trade_expense'],data['base']['weekly'][i]['trade_expense']) + "%)",
-                        "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['trade_expense']-data['base']['weekly'][i]['trade_expense'],true,false) + ")",
-                        "color":  this.colorForDifference(data['simulated']['weekly'][i]['trade_expense'],data['base']['weekly'][i]['trade_expense'] ),
-                    },
-                    'te_percent_of_lsv': {
-                        "converted_base": Utils.formatNumber(data['base']['weekly'][i]['te_percent_of_lsv'],true,false),
-                        "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['te_percent_of_lsv'],true,false),
-                        "arrow": data['simulated']['weekly'][i]['te_percent_of_lsv'] > data['base']['weekly'][i]['te_percent_of_lsv'] ?  'carret-up' : 'carret-down' ,
-                        "color": this.colorForDifference(data['simulated']['weekly'][i]['te_percent_of_lsv'],data['base']['weekly'][i]['te_percent_of_lsv']),
-                        "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['te_percent_of_lsv'],data['base']['weekly'][i]['te_percent_of_lsv']) + "%)",
-                        "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['te_percent_of_lsv']-data['base']['weekly'][i]['te_percent_of_lsv'],true,false) + ")"
-                    },
+                    // 'mars_mac_percent_of_nsv': {
+                    //     "converted_base": Utils.formatNumber(data['base']['weekly'][i]['mars_mac_percent_of_nsv'],true,false),
+                    //     "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['mars_mac_percent_of_nsv'],true,false),
+                    //     "arrow": data['simulated']['weekly'][i]['mars_mac_percent_of_nsv'] > data['base']['weekly'][i]['mars_mac_percent_of_nsv'] ?  'carret-up' : 'carret-down' ,
+                    //     "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['mars_mac_percent_of_nsv'],data['base']['weekly'][i]['mars_mac_percent_of_nsv']) + "%)",
+                    //     "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['mars_mac_percent_of_nsv']-data['base']['weekly'][i]['mars_mac_percent_of_nsv'],true,false) + ")",
+                    //     "color":  this.colorForDifference(data['base']['weekly'][i]['mars_mac_percent_of_nsv'] , data['simulated']['weekly'][i]['mars_mac_percent_of_nsv']),
+                    // },
+                    // 'trade_expense': {
+                    //     "converted_base": Utils.formatNumber(data['base']['weekly'][i]['trade_expense'],true,false),
+                    //     "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['trade_expense'],true,false),
+                    //     "arrow": data['simulated']['weekly'][i]['trade_expense'] > data['base']['weekly'][i]['trade_expense'] ?  'carret-up' : 'carret-down' ,
+                    //     "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['trade_expense'],data['base']['weekly'][i]['trade_expense']) + "%)",
+                    //     "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['trade_expense']-data['base']['weekly'][i]['trade_expense'],true,false) + ")",
+                    //     "color":  this.colorForDifference(data['simulated']['weekly'][i]['trade_expense'],data['base']['weekly'][i]['trade_expense'] ),
+                    // },
+                    // 'te_percent_of_lsv': {
+                    //     "converted_base": Utils.formatNumber(data['base']['weekly'][i]['te_percent_of_gsv'],true,false),
+                    //     "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['te_percent_of_gsv'],true,false),
+                    //     "arrow": data['simulated']['weekly'][i]['te_percent_of_gsv'] > data['base']['weekly'][i]['te_percent_of_gsv'] ?  'carret-up' : 'carret-down' ,
+                    //     "color": this.colorForDifference(data['simulated']['weekly'][i]['te_percent_of_gsv'],data['base']['weekly'][i]['te_percent_of_gsv']),
+                    //     "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['te_percent_of_gsv'],data['base']['weekly'][i]['te_percent_of_gsv']) + "%)",
+                    //     "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['te_percent_of_gsv']-data['base']['weekly'][i]['te_percent_of_gsv'],true,false) + ")"
+                    // },
                     'lift_percent': {
                         "converted_base": Utils.formatNumber(data['base']['weekly'][i]['lift'],true,false),
                         "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['lift'],true,false),
@@ -495,22 +496,22 @@ export class PromosimulatorBuilderAggregatedComponent implements OnInit, AfterVi
                         "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['lift'],data['base']['weekly'][i]['lift']) + "%)",
                         "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['lift']-data['base']['weekly'][i]['lift'],true,false) + ")"
                     },
-                    'roi': {
-                        "converted_base": Utils.formatNumber(data['base']['weekly'][i]['roi'],true,false),
-                        "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['roi'],true,false),
-                        "arrow": data['simulated']['weekly'][i]['roi'] > data['base']['weekly'][i]['roi'] ?  'carret-up' : 'carret-down' ,
-                        "color": this.colorForDifference(data['base']['weekly'][i]['roi'] , data['simulated']['weekly'][i]['roi']),
-                        "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['roi'],data['base']['weekly'][i]['roi']) + "%)",
-                        "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['roi']-data['base']['weekly'][i]['roi'],true,false) + ")"
-                    },
-                    'promo_asp': {
-                        "converted_base": Utils.formatNumber(data['base']['weekly'][i]['promo_asp'],true,false),
-                        "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['promo_asp'],true,false),
-                        "arrow": data['simulated']['weekly'][i]['promo_asp'] > data['base']['weekly'][i]['promo_asp'] ?  'carret-up' : 'carret-down' ,
-                        "color": this.colorForDifference(data['base']['weekly'][i]['promo_asp'] , data['simulated']['weekly'][i]['promo_asp']),
-                        "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['promo_asp'],data['base']['weekly'][i]['promo_asp']) + "%)",
-                        "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['promo_asp']-data['base']['weekly'][i]['promo_asp'],true,false) + ")"
-                    },
+                    // 'roi': {
+                    //     "converted_base": Utils.formatNumber(data['base']['weekly'][i]['roi'],true,false),
+                    //     "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['roi'],true,false),
+                    //     "arrow": data['simulated']['weekly'][i]['roi'] > data['base']['weekly'][i]['roi'] ?  'carret-up' : 'carret-down' ,
+                    //     "color": this.colorForDifference(data['base']['weekly'][i]['roi'] , data['simulated']['weekly'][i]['roi']),
+                    //     "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['roi'],data['base']['weekly'][i]['roi']) + "%)",
+                    //     "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['roi']-data['base']['weekly'][i]['roi'],true,false) + ")"
+                    // },
+                    // 'promo_asp': {
+                    //     "converted_base": Utils.formatNumber(data['base']['weekly'][i]['promo_asp'],true,false),
+                    //     "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['promo_asp'],true,false),
+                    //     "arrow": data['simulated']['weekly'][i]['promo_asp'] > data['base']['weekly'][i]['promo_asp'] ?  'carret-up' : 'carret-down' ,
+                    //     "color": this.colorForDifference(data['base']['weekly'][i]['promo_asp'] , data['simulated']['weekly'][i]['promo_asp']),
+                    //     "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['promo_asp'],data['base']['weekly'][i]['promo_asp']) + "%)",
+                    //     "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['promo_asp']-data['base']['weekly'][i]['promo_asp'],true,false) + ")"
+                    // },
                     'asp': {
                         "converted_base": Utils.formatNumber(data['base']['weekly'][i]['asp'],true,false),
                         "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['asp'],true,false),
@@ -528,12 +529,12 @@ export class PromosimulatorBuilderAggregatedComponent implements OnInit, AfterVi
                         "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['te_per_units']-data['base']['weekly'][i]['te_per_units'],true,false) + ")"
                     },
                     'total_rsv_w_o_vat': {
-                        "converted_base": Utils.formatNumber(data['base']['weekly'][i]['total_rsv_w_o_vat'],true,false),
-                        "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['total_rsv_w_o_vat'],true,false),
-                        "arrow": data['simulated']['weekly'][i]['total_rsv_w_o_vat'] > data['base']['weekly'][i]['total_rsv_w_o_vat'] ?  'carret-up' : 'carret-down' ,
-                        "color":  this.colorForDifference(data['base']['weekly'][i]['total_rsv_w_o_vat'] , data['simulated']['weekly'][i]['total_rsv_w_o_vat']),
-                        "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['total_rsv_w_o_vat'],data['base']['weekly'][i]['total_rsv_w_o_vat']) + "%)",
-                        "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['total_rsv_w_o_vat']-data['base']['weekly'][i]['total_rsv_w_o_vat'],true,false) + ")"
+                        "converted_base": Utils.formatNumber(data['base']['weekly'][i]['total_rsv_without_tax'],true,false),
+                        "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['total_rsv_without_tax'],true,false),
+                        "arrow": data['simulated']['weekly'][i]['total_rsv_without_tax'] > data['base']['weekly'][i]['total_rsv_without_tax'] ?  'carret-up' : 'carret-down' ,
+                        "color":  this.colorForDifference(data['base']['weekly'][i]['total_rsv_without_tax'] , data['simulated']['weekly'][i]['total_rsv_without_tax']),
+                        "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['total_rsv_without_tax'],data['base']['weekly'][i]['total_rsv_without_tax']) + "%)",
+                        "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['total_rsv_without_tax']-data['base']['weekly'][i]['total_rsv_without_tax'],true,false) + ")"
                     },
                     'retailer_margin': {
                         "converted_base": Utils.formatNumber(data['base']['weekly'][i]['retailer_margin'],true,false),
@@ -544,12 +545,12 @@ export class PromosimulatorBuilderAggregatedComponent implements OnInit, AfterVi
                         "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['retailer_margin']-data['base']['weekly'][i]['retailer_margin'],true,false) + ")"
                     },
                     'retailer_margin_percent_of_rsp': {
-                        "converted_base": Utils.formatNumber(data['base']['weekly'][i]['retailer_margin_percent_of_rsp'],true,false),
-                        "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['retailer_margin_percent_of_rsp'],true,false),
-                        "arrow":data['simulated']['weekly'][i]['retailer_margin_percent_of_rsp'] > data['base']['weekly'][i]['retailer_margin_percent_of_rsp'] ?  'carret-up' : 'carret-down' ,
-                        "color":  this.colorForDifference(data['base']['weekly'][i]['retailer_margin_percent_of_rsp'] , data['simulated']['weekly'][i]['retailer_margin_percent_of_rsp']),
-                        "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['retailer_margin_percent_of_rsp'],data['base']['weekly'][i]['retailer_margin_percent_of_rsp']) + "%)",
-                        "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['retailer_margin_percent_of_rsp']-data['base']['weekly'][i]['retailer_margin_percent_of_rsp'],true,false) + ")"
+                        "converted_base": Utils.formatNumber(data['base']['weekly'][i]['rp_percent'],true,false),
+                        "converted_simulated": Utils.formatNumber(data['simulated']['weekly'][i]['rp_percent'],true,false),
+                        "arrow":data['simulated']['weekly'][i]['rp_percent'] > data['base']['weekly'][i]['rp_percent'] ?  'carret-up' : 'carret-down' ,
+                        "color":  this.colorForDifference(data['base']['weekly'][i]['rp_percent'] , data['simulated']['weekly'][i]['rp_percent']),
+                        "percent": "(" + Utils.percentageDifference(data['simulated']['weekly'][i]['rp_percent'],data['base']['weekly'][i]['rp_percent']) + "%)",
+                        "converted_difference": "(" + Utils.formatNumber(data['simulated']['weekly'][i]['rp_percent']-data['base']['weekly'][i]['rp_percent'],true,false) + ")"
                     },
                 }
                 this.weeklyData.push(weekObj)

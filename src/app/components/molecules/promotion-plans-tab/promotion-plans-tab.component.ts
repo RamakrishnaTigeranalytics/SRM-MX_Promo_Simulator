@@ -49,15 +49,15 @@ export class PromotionPlansTabComponent implements OnInit, AfterViewInit {
                     parseFloat(data.flag_promotype_motivation) , 
                     parseFloat(data.flag_promotype_n_pls_1),
                     parseFloat(data.flag_promotype_traffic),
-                    parseFloat(data.promo_depth) , 
-                    parseFloat(data.co_investment)
+                    parseFloat(data.promo_price) , 
+                    parseFloat(data.cost_share)
                 )
                 let base_promo = Utils.genratePromotion(
                     parseFloat(base_value[index].flag_promotype_motivation) , 
                     parseFloat(base_value[index].flag_promotype_n_pls_1),
                     parseFloat(base_value[index].flag_promotype_traffic),
-                    parseFloat(base_value[index].promo_depth) , 
-                    parseFloat(base_value[index].co_investment)
+                    parseFloat(base_value[index].promo_price) , 
+                    parseFloat(base_value[index].cost_share)
                 )
                 if(promo){
                     promo.discount.push({"promotion_value": base_promo,"promotion_value_simulated": simulated_promotion})

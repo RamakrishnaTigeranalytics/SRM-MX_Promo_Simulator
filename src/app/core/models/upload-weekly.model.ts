@@ -1,9 +1,10 @@
 import {ProductWeek} from './product-week.model'
 export interface UploadPromotionWeekly{
     week : number,
-    promo_depth : number,
+    promo_price : number,
     promo_mechanics : string,
-    co_investment : number
+    cost_share : number,
+    vol_ondeal :number
 }
 export interface UploadModel {
     base : ProductWeek[],

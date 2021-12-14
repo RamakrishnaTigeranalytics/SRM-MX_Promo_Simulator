@@ -249,6 +249,7 @@ export class OptimizerService {
 
   }
   getPromoSimulateData(requestData: any): Observable<any> {
+    // debugger
     return this.apiService.post<any>('api/scenario/promo-simulate/', requestData)
     
   }  

@@ -19,7 +19,7 @@
                     >{{filter_model.category}}</nwn-filter-item
                 >
             </div>
-            <div class="mr-2 mb-2">
+            <!-- <div class="mr-2 mb-2">
                 <nwn-filter-item
                 (closeClickedEvent) = "$event.stopPropagation();closeClicked('Strategic cells')"
                 [hideClose]="filter_model.strategic_cell =='Strategic cells'"
@@ -27,6 +27,16 @@
                     nwnSvgIcon="strategic-cells"
                     (click)="sendMessage('filter-stragetic-cells')"
                     >{{filter_model.strategic_cell}}</nwn-filter-item
+                >
+            </div> -->
+            <div class="mr-2 mb-2">
+                <nwn-filter-item
+                (closeClickedEvent) = "$event.stopPropagation();closeClicked('Subsegment')"
+                [hideClose]="filter_model.sub_segment =='Subsegment'"
+                    type="stroke"
+                    nwnSvgIcon="strategic-cells"
+                    (click)="sendMessage('filter-sub-segment')"
+                    >{{filter_model.sub_segment}}</nwn-filter-item
                 >
             </div>
             <div class="mr-2 mb-2">
@@ -37,14 +47,14 @@
                     > {{filter_model.brand}}</nwn-filter-item
                 >
             </div>
-            <div class="mr-2 mb-2">
+            <!-- <div class="mr-2 mb-2">
                 <nwn-filter-item
                 (closeClickedEvent) = "$event.stopPropagation();closeClicked('Brand Formats')"
                 [hideClose]="filter_model.brand_format =='Brand Formats'"
                  type="stroke" nwnSvgIcon="brand-formats" (click)="sendMessage('filter-brand-formats')"
                     > {{filter_model.brand_format}}</nwn-filter-item
                 >
-            </div>
+            </div> -->
             <div class="mr-2 mb-2">
                 <nwn-filter-item
                 (closeClickedEvent) = "$event.stopPropagation();closeClicked('Product groups')"

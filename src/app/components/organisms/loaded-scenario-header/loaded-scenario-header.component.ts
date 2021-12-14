@@ -60,7 +60,7 @@ export class LoadedScenarioHeaderComponent implements OnInit,OnDestroy {
                     let traffic =  data.promo_mechanics == 'Traffic'? 1 : 0
                     let gen_promo = utils.genratePromotion(
                         motivation,n_plus_1,traffic,
-                        data.promo_depth , data.co_investment)
+                        data.promo_price , data.cost_share)
                         if(gen_promo){
                             this.optimize.insert_base_line_promotion(gen_promo)
                         }
@@ -131,20 +131,21 @@ export class LoadedScenarioHeaderComponent implements OnInit,OnDestroy {
 
             }
             else{
-                let promo_depth : Array<string> = []
+                let promo_price : Array<string> = []
                 
                 weekdata.forEach(data=>{
+                    // debugger
                     let gen_promo = utils.genratePromotion(
                         parseFloat(data.flag_promotype_motivation) , 
                         parseFloat(data.flag_promotype_n_pls_1),
                         parseFloat(data.flag_promotype_traffic),
-                        parseFloat(data.promo_depth) , 
-                        parseFloat(data.co_investment)
+                        parseFloat(data.promo_price) , 
+                        parseFloat(data.cost_share)
                     )
                     data.promotion_name = gen_promo
-                    if(gen_promo && !promo_depth.includes(gen_promo)){
+                    if(gen_promo && !promo_price.includes(gen_promo)){
                       
-                        promo_depth.push(gen_promo)
+                        promo_price.push(gen_promo)
                     }
                     let str = "Y" + 1 + " Q"+data.quater as string
                     if(!this.quarter_year.includes(str)){
@@ -159,13 +160,13 @@ export class LoadedScenarioHeaderComponent implements OnInit,OnDestroy {
                     //     this.quarter_year.push(str);
                     //     this.genobj[str] = [data]
                     // }
-                    data.promo_depth = parseInt(data.promo_depth)
-                    data.co_investment = (data.co_investment)
+                    data.promo_price = parseInt(data.promo_price)
+                    data.cost_share = (data.cost_share)
     
                 })
                 console.log(this.available_year , "Available year")
                 // this.options1 = promo_depth
-                this.optimize.set_base_line_promotion(promo_depth)
+                this.optimize.set_base_line_promotion(promo_price)
                 this.options1 = this.optimize.get_base_line_promotions()
                 console.log(this.options1 , "options for drop down promotion")
                 this.product_week = weekdata
@@ -221,8 +222,8 @@ export class LoadedScenarioHeaderComponent implements OnInit,OnDestroy {
         this.promotion_map = []
         
         scenario.base.weekly.forEach((data,index)=>{
-            let simulated_depth = scenario.simulated.weekly[index].promo_depth
-            let simulated_coinv = scenario.simulated.weekly[index].co_investment
+            let simulated_depth = scenario.simulated.weekly[index].promo_price
+            let simulated_coinv = scenario.simulated.weekly[index].cost_share
             let simulated_n_plus_1 = scenario.simulated.weekly[index].flag_promotype_n_pls_1
             let simulated_motivation = scenario.simulated.weekly[index].flag_promotype_motivation
             let simulated_traffic = scenario.simulated.weekly[index].flag_promotype_traffic
@@ -246,8 +247,8 @@ export class LoadedScenarioHeaderComponent implements OnInit,OnDestroy {
             "period": data.period,
             "week": data.week,
             "date": data.date,
-            "promo_depth": data.promo_depth,
-            "co_investment": data.co_investment,
+            "promo_price": data.promo_price,
+            "cost_share": data.cost_share,
             "flag_promotype_motivation": data.flag_promotype_motivation,
             "flag_promotype_n_pls_1": data.flag_promotype_n_pls_1,
             "flag_promotype_traffic": data.flag_promotype_traffic
@@ -279,22 +280,22 @@ export class LoadedScenarioHeaderComponent implements OnInit,OnDestroy {
         // {"selected_promotion" : $event.value , "week" : this.product_week }
         this.product_week.forEach(data=>{
             
-            let val = (parseFloat((data.promo_depth).toString()))
+            let val = (parseFloat((data.promo_price).toString()))
             if(val){
                 this.promotion_map.push({
                     "selected_promotion": utils.genratePromotion(
                         parseFloat(data.flag_promotype_motivation)
                         ,parseFloat(data.flag_promotype_n_pls_1),parseFloat(data.flag_promotype_traffic),
-                        parseFloat(data.promo_depth),parseFloat(data.co_investment)
+                        parseFloat(data.promo_price),parseFloat(data.cost_share)
                     ),
                     // "TPR-"+val+"%",
                     "week" : data})
             
                 // console.log(val , "values fro ", data.week , " discont " ,  "TPR-"+val+"%")
             }
-            data.promo_depth = val
+            data.promo_price = val
             // data.promo_depth = val
-            data.co_investment = (parseFloat((data.co_investment).toString()))
+            data.cost_share = (parseFloat((data.cost_share).toString()))
             // promo_depth.map(val=>"TPR-"+val+"%")
         })
         console.log(this.promotion_map , "promotion map change")
