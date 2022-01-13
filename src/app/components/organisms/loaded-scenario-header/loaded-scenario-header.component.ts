@@ -54,6 +54,7 @@ export class LoadedScenarioHeaderComponent implements OnInit,OnDestroy {
             if(uploadData){
                 console.log(uploadData , "get uploaded data ")
                 uploadData.simulated.weekly.forEach((data,index)=>{
+                    // debugger
                     // this.promotion_map
                     let motivation = data.promo_mechanics == 'Motivation'? 1 : 0
                     let n_plus_1 = data.promo_mechanics == 'N+1'? 1 : 0
@@ -106,6 +107,7 @@ export class LoadedScenarioHeaderComponent implements OnInit,OnDestroy {
            if (data.length > 0){
                console.log(data , "get promotion data")
                this.options1 = data
+            //    debugger
                console.log(this.options1, "options 1")
 
            }
@@ -132,15 +134,17 @@ export class LoadedScenarioHeaderComponent implements OnInit,OnDestroy {
             }
             else{
                 let promo_price : Array<string> = []
-                
+                // console.log("weekdata",weekdata)
                 weekdata.forEach(data=>{
-                    // debugger
                     let gen_promo = utils.genratePromotion(
-                        parseFloat(data.flag_promotype_motivation) , 
-                        parseFloat(data.flag_promotype_n_pls_1),
-                        parseFloat(data.flag_promotype_traffic),
-                        parseFloat(data.promo_price) , 
-                        parseFloat(data.cost_share)
+                        // parseFloat(data.multi_buy_flag) , 
+                        // parseFloat(data.multi_buy_flag3x),
+                        parseFloat(data.promo_price.toFixed(2)) , 
+                        parseFloat(data.cost_share),
+                        parseFloat(data.volume_on_deal),
+                        parseFloat(data.promo_depth),
+                        data.promo_activity
+
                     )
                     data.promotion_name = gen_promo
                     if(gen_promo && !promo_price.includes(gen_promo)){
@@ -160,10 +164,11 @@ export class LoadedScenarioHeaderComponent implements OnInit,OnDestroy {
                     //     this.quarter_year.push(str);
                     //     this.genobj[str] = [data]
                     // }
-                    data.promo_price = parseInt(data.promo_price)
+                   // data.promo_price = parseInt(data.promo_price)
                     data.cost_share = (data.cost_share)
     
                 })
+                // console.log("before append",weekdata);
                 console.log(this.available_year , "Available year")
                 // this.options1 = promo_depth
                 this.optimize.set_base_line_promotion(promo_price)
@@ -249,9 +254,15 @@ export class LoadedScenarioHeaderComponent implements OnInit,OnDestroy {
             "date": data.date,
             "promo_price": data.promo_price,
             "cost_share": data.cost_share,
-            "flag_promotype_motivation": data.flag_promotype_motivation,
+            "flag_promotype_motivation": data.multi_buy_flag,
             "flag_promotype_n_pls_1": data.flag_promotype_n_pls_1,
-            "flag_promotype_traffic": data.flag_promotype_traffic
+            "flag_promotype_traffic": data.flag_promotype_traffic,
+            "volume_on_deal":data.volume_on_deal,
+            "multi_buy_flag":data.multi_buy_flag,
+            "multi_buy_flag3x":data.multi_buy_flag3x,
+            "mechanic":data.mechanic,
+            "promo_depth":data.promo_depth,
+            "promo_activity":data.promo_activity
            })
 
         })
@@ -279,25 +290,27 @@ export class LoadedScenarioHeaderComponent implements OnInit,OnDestroy {
         this.promotion_map = []
         // {"selected_promotion" : $event.value , "week" : this.product_week }
         this.product_week.forEach(data=>{
-            
-            let val = (parseFloat((data.promo_price).toString()))
+            let val = (parseFloat((data.promo_depth).toString()))
             if(val){
                 this.promotion_map.push({
                     "selected_promotion": utils.genratePromotion(
-                        parseFloat(data.flag_promotype_motivation)
-                        ,parseFloat(data.flag_promotype_n_pls_1),parseFloat(data.flag_promotype_traffic),
-                        parseFloat(data.promo_price),parseFloat(data.cost_share)
+                        parseFloat(data.promo_price.toFixed(2)) , 
+                        parseFloat(data.cost_share),
+                        parseFloat(data.volume_on_deal),
+                        parseFloat(data.promo_depth),
+                        data.promo_activity
                     ),
                     // "TPR-"+val+"%",
                     "week" : data})
             
                 // console.log(val , "values fro ", data.week , " discont " ,  "TPR-"+val+"%")
             }
-            data.promo_price = val
+            data.promo_depth = val
             // data.promo_depth = val
-            data.cost_share = (parseFloat((data.cost_share).toString()))
+            data.promo_price = (parseFloat((data.promo_price).toString()))
             // promo_depth.map(val=>"TPR-"+val+"%")
         })
+
         console.log(this.promotion_map , "promotion map change")
 
 
@@ -354,6 +367,7 @@ export class LoadedScenarioHeaderComponent implements OnInit,OnDestroy {
     }
 
     sendMessage(modalType: string): void {
+        // debugger
         this.isShowDivIf = true
         if(modalType == 'save-scenario-popup'){
             if(this.disable_button){

@@ -1,7 +1,14 @@
 export interface PromoSimulatedWeeklyModel{
+    mechanic: any;
+    promo_activity:any;
+    multi_buy_flag3x: any;
+    simulated_multi_buy_flag3x: any;
+    multi_buy_flag: any;
     asp: number;
     promo_price:number;
     cost_share:number;
+    volume_on_deal:number;
+    promo_depth:number;
 base_unit: number;
 date: string;
 year:string;

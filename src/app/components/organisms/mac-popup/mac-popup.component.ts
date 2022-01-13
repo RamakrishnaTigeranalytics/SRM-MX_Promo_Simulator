@@ -66,11 +66,12 @@ export class MacPopupComponent {
 
     }
     get_popup_id(label){
+        // debugger
         let ret = ''
         if(label == 'MAC'){
             ret = 'mac-popup'
         }
-        if(label == 'Trade margin'){
+        if(label == 'Retailer profit'){
             ret = 'retailer-popup'
         }
         if(label == 'Trade expense'){
@@ -79,8 +80,14 @@ export class MacPopupComponent {
         if(label == 'MAC, % NSV'){
             ret = 'mac-per-popup'
         }
-        if(label == 'TM, % RSV'){
+        if(label == 'TE, % RSV'){
             ret = 'rp-per-popup'
+        }
+        if(label == 'Sales'){
+            ret = 'sales-per-popup'
+        }
+        if(label == 'Units'){
+            ret = 'units-per-popup'
         }
         return ret
     }

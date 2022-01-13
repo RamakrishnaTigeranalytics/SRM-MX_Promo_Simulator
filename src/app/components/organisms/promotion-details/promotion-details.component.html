@@ -1,11 +1,12 @@
-<div class="w-[650px] bg-white mx-auto my-6 promodetails">
+<div class="w-[650px] bg-white mx-auto my-6 promodetails" style="height: calc(100vh - 30px);
+overflow-y: scroll;">
     <div class="border-b border-marsgray-200">
         <nwn-command-header type="stroke" nwnSvgIcon="adjustments">Promotion details</nwn-command-header>
     </div>
     <form [formGroup]="form" >
     <div class="h-auto bg-white">
         <div class="px-6 py-3 space-y-2 promodetailselect">
-            <label for="promoname">Promo Mechanic<span class="mandatory-fields">*</span></label>
+            <label for="promoname">Promo Activity<span class="mandatory-fields">*</span></label>
                 <ngx-select-dropdown
                 (open)="hideNoResultsFound()"
                 (change)="hideNoResultsFound();changePromotion($event)"
@@ -20,20 +21,31 @@
             <span *ngIf="errMsg.mechanic" class="err-msg">Please select the promo mechanic</span>
         </div>
         <div class="px-6 py-2">
-            <label for="promoname">Discount depth
+            <label for="promoname">Promo price
                 <!-- <span class="mandatory-fields">*</span> -->
             </label>
             <div class="custom-slider pt-4 pb-6">
-                <ngx-slider [(value)]="valueDiscountdepth" (mouseup)="sliderEvent()" [options]="discountdepth"></ngx-slider>
+                
+                <input   name="promo" type="number" formControlName="tpr" [disabled]="discountdepth.disabled" (keyup)="onKey($event.target.value)" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Enter Promo price">
+                <!-- <ngx-slider [(value)]="valueDiscountdepth" (mouseup)="sliderEvent()" [options]="discountdepth"></ngx-slider> -->
             </div>
-            <span *ngIf="errMsg.discount" class="err-msg">Please select the discount depth</span>
+            <span *ngIf="errMsg.discount" class="err-msg">Please select the Promo price</span>
         </div>
         <div class="px-6 py-2">
-            <label for="promoname">Co-investment depth
+            <label for="promoname">Cost share
                 <!-- <span class="mandatory-fields">*</span> -->
             </label>
             <div class="custom-slider pt-4 pb-6">
                 <ngx-slider [(value)]="valueCoInvestment" [options]="coInvestment"></ngx-slider>
+            </div>
+            <!-- <span *ngIf="errMsg.co_investment" class="err-msg">Please select the co-investment depth</span> -->
+        </div>
+        <div class="px-6 py-2">
+            <label for="promoname">Volume on deal
+                <!-- <span class="mandatory-fields">*</span> -->
+            </label>
+            <div class="custom-slider pt-4 pb-6">
+                <ngx-slider [(value)]="valueVolumeondeal" [options]="volumeOndeal"></ngx-slider>
             </div>
             <!-- <span *ngIf="errMsg.co_investment" class="err-msg">Please select the co-investment depth</span> -->
         </div>

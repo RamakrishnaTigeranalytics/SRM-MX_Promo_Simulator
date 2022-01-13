@@ -1,11 +1,12 @@
-<div class="w-[650px] bg-white mx-auto my-6">
+<div class="w-[650px] bg-white mx-auto my-6" style="height: calc(100vh - 30px);
+overflow-y: scroll;">
     <div class="border-b border-marsgray-200">
         <nwn-command-header type="stroke" nwnSvgIcon="adjustments">Promotion details</nwn-command-header>
     </div>
     <form [formGroup]="form" >
     <div class="h-auto bg-white">
         <div class="px-6 py-3 space-y-2 promodetailselect">
-            <label for="promoname">Promo Mechanic<span class="mandatory-fields">*</span></label>
+            <label for="promoname">Promo Activity<span class="mandatory-fields">*</span></label>
             <ngx-select-dropdown
             (open)="hideNoResultsFound()"
             (change)="hideNoResultsFound();changePromotion($event)"
@@ -47,7 +48,9 @@
                 <!-- <span class="mandatory-fields">*</span> -->
             </label>
             <div class="custom-slider pt-4 pb-6">
-                <ngx-slider [(value)]="valueDiscountdepth" (mouseup)="sliderEvent()" [options]="discountdepth"></ngx-slider>
+                <input   name="promo" type="number" formControlName="tpr" [disabled]="discountdepth.disabled" (keyup)="onKey($event.target.value)" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Enter Promo price">
+
+                <!-- <ngx-slider [(value)]="valueDiscountdepth" (mouseup)="sliderEvent()" [options]="discountdepth"></ngx-slider> -->
             </div>
             
         </div>

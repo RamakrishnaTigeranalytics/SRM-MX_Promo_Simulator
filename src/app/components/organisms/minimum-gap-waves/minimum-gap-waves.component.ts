@@ -10,7 +10,7 @@ export class MinimumGapWavesComponent {
 
 
     @Input()
-    floor = 1
+    floor = 0
     @Input()
     ceil = 52
     @Input()
@@ -29,8 +29,6 @@ export class MinimumGapWavesComponent {
 
         translate: (value: number, label: LabelType): string => {
             // console.log("value" , value)
-            
-            
             switch (label) {
                 case LabelType.Ceil:
                     return value + ' weeks';

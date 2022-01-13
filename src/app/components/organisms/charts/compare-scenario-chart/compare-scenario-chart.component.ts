@@ -111,9 +111,9 @@ export class CompareScenarioChartComponent implements OnInit,OnChanges {
                 return num
             } 
             if(num.toString()[1] != undefined && num.toString()[1] == "0"){
-                return (d3.format('.1s')(d) + ' ₽').replace(/G/,"B")
+                return ('$ '+d3.format('.1s')(d)).replace(/G/,"B")
             }
-            return  (d3.format('.2s')(d) + ' ₽').replace(/G/,"B")
+            return  ('$ ' +d3.format('.2s')(d)).replace(/G/,"B")
         };
 
         this.svg

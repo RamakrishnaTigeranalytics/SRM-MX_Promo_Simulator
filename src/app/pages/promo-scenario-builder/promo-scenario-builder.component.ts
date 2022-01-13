@@ -548,7 +548,10 @@ export class PromoScenarioBuilderComponent implements OnInit {
             
             let obj = utils.decodePromotion(element.selected_promotion)
             
-            
+            if((obj.cost_share > 1) || (obj.vol_on_deal >1)){
+                obj.cost_share = obj.cost_share/100;
+                obj.vol_on_deal = obj.vol_on_deal/100;
+            }
             form[key] = obj
             
         });
@@ -678,7 +681,7 @@ export class PromoScenarioBuilderComponent implements OnInit {
     }
     loadPromotionEvent($event){
         console.log($event)
-        // debugger
+        debugger
         let pricing = null
         if("price_id" in $event){
             pricing= $event['price_id']
@@ -722,17 +725,22 @@ export class PromoScenarioBuilderComponent implements OnInit {
         this.promotion_map = []
         
         scenario.base.weekly.forEach((data,index)=>{
-            let simulated_depth = scenario.simulated.weekly[index].promo_price
-            let simulated_coinv = scenario.simulated.weekly[index].cost_share
-            let simulated_n_plus_1 = scenario.simulated.weekly[index].flag_promotype_n_pls_1
-            let simulated_motivation = scenario.simulated.weekly[index].flag_promotype_motivation
-            let simulated_traffic = scenario.simulated.weekly[index].flag_promotype_traffic
-            let simulated_volondeal = scenario.simulated.weekly[index].flag_promotype_traffic
-            if(simulated_depth){
+            let simulated_price = scenario.simulated.weekly[index].promo_price
+            let simulated_cost_share = scenario.simulated.weekly[index].cost_share
+            //let simulated_n_plus_1 = scenario.simulated.weekly[index].flag_promotype_n_pls_1
+           // let simulated_motivation = scenario.simulated.weekly[index].flag_promotype_motivation
+           let simulted_multiby_flag = scenario.simulated.weekly[index].multi_buy_flag
+           let simulated_multi_buy_flag3x =scenario.simulated.weekly[index].simulated_multi_buy_flag3x
+            // let simulated_traffic = scenario.simulated.weekly[index].flag_promotype_traffic
+            let simulated_volondeal = scenario.simulated.weekly[index].volume_on_deal
+            let mechanincs = scenario.simulated.weekly[index].promo_activity
+            let promo_depth = scenario.simulated.weekly[index].promo_depth
+
+            if(simulated_price){
                 this.promotion_map.push({
                     "selected_promotion" : utils.genratePromotion(
-                        simulated_motivation,simulated_n_plus_1,simulated_traffic,simulated_depth,
-                        simulated_coinv
+                        simulated_price.toFixed(2),
+                        simulated_cost_share,simulated_volondeal,mechanincs,promo_depth
                     ) ,
                      "week" : data
                 })
@@ -751,6 +759,7 @@ export class PromoScenarioBuilderComponent implements OnInit {
 
     }
     _saveEvent($event){
+        // debugger
         console.log(this.promotion_viewed , "saved promotion while saving....")
         if(this.promotion_map.length == 0){
             this.toastr.error('please choose atleastone promotion');
@@ -762,12 +771,14 @@ export class PromoScenarioBuilderComponent implements OnInit {
                 "name" : $event['name'],
                 "comments" : $event["comments"],
                 "account_name" : this.selected_retailer ,
-                "category" : this.selected_category,
+                "corporate_segment" : this.selected_sub_segment,
                 "product_group" : this.selected_product,
+                "scenario_type" : "promo",
                 "param_depth_all" : false,
                 "promo_elasticity" : 0
             }
-            if(this.promotion_viewed.scenario_type == "pricing"){
+            // if(this.promotion_viewed.scenario_type == "pricing"){
+                if(this.promotion_viewed?.scenario_type == 'pricing'){
                 weekly["pricing_scenario_id"]  =  (this.promotion_viewed.meta as MetaInfo).id
             }
             this.promotion_map.forEach(element => {
@@ -838,8 +849,9 @@ export class PromoScenarioBuilderComponent implements OnInit {
                 "name" : $event['name'],
                 "comments" : $event["comments"],
                 "account_name" : this.selected_retailer ,
-                "category" : this.selected_category,
+                "corporate_segment" : this.selected_sub_segment,
                 "product_group" : this.selected_product,
+                "scenario_type" : "promo",
                 "param_depth_all" : false,
                 "promo_elasticity" : 0,
                 "scenario_id": this.loaded_scenario.scenario_id
@@ -919,9 +931,17 @@ export class PromoScenarioBuilderComponent implements OnInit {
                 
             }else{
                 if(!this.selected_retailer || this.selected_retailer == "Retailers"){
-                    this.toastr.error("Set retailer to simulate")
+                    if($event == 'load-scenario-promosimulator'){
+                        this.loadScenarioPopuptitle = 'Load scenario'
+                        this.openModal($event);
+                    }else if($event == 'compare-promo-scenario'){
+                        this.openModal($event);
+                    }else{
+                        this.toastr.error("Set retailer to simulate")
+                    }
+                    // debugger
                     // this.closeModal($event)
-                    return
+                    // return
                 }else{
                     this.openModal($event);
                 }

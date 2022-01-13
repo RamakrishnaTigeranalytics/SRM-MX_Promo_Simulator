@@ -9,7 +9,7 @@ export class MenuItemComponent {
     @Input()
     href = '';
     @Input()
-    link = '';
+    link = '/promo';
     @Input()
     type = 'stroke';
     @Input()

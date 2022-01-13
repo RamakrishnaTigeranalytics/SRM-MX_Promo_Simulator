@@ -19,6 +19,7 @@ export class AddPromotionComponent implements OnInit {
         discount: false,
         cost_share: false
     }
+    public userInPut:any;
     constructor(private toastr: ToastrService,private optimize : OptimizerService,public modalService: ModalService,public restApi: SimulatorService){
 
     }
@@ -41,15 +42,15 @@ export class AddPromotionComponent implements OnInit {
     valueDiscountdepth = 0;
 
     @Input()
-    valueCoInvestment = 0;
+    valueCoInvestment = 100;
 
     @Input()
-    valueVolumeondeal = 0;
+    valueVolumeondeal = 100;
 
     @Input()
     discountdepth: Options = {
         floor: 0,
-        ceil: 200,
+        ceil: 1000,
         showSelectionBar: true,
         disabled: true,
         translate: (value: number, label: LabelType): string => {
@@ -121,9 +122,9 @@ export class AddPromotionComponent implements OnInit {
         this.restApi.ClearScearchText.asObservable().subscribe(data=>{
             if(data == "add-promotion"){
                 console.log(data , "promotion modal.................................")
-                this.valueCoInvestment = 0
+                this.valueCoInvestment = 100
                 this.valueDiscountdepth = 0
-                this.valueVolumeondeal = 0;
+                this.valueVolumeondeal = 100;
                 this.form.reset()
                 // this.form.reset()
             }
@@ -136,17 +137,19 @@ export class AddPromotionComponent implements OnInit {
     };
     this.form.valueChanges.subscribe(data=>{
     let final = Utils.genratePromotion(
-        data.promo == "Motivation" ? 1 : 0,
-        data.promo == "N+1" ? 1 : 0,
-        data.promo == "Traffic" ? 1 : 0,
-     data.tpr,
+        this.userInPut,
      data.co_inv,
-     data.vol_on_deal
+     data.vol_on_deal,
+     "13%",
+     data.promo
     )
     setTimeout(()=>{
         this.base_line_promotions = this.optimize.get_base_line_promotions().map(e=>({"value" : e,"checked" : false}))
-        this.promo_name = this.optimize.get_base_line_promotions().map(e=>Utils.decodePromotion(e)['promo_mechanics'])
+        this.promo_name = this.optimize.get_base_line_promotions().map(e=>Utils.decodePromotion(e)['promo_activity'])
+        this.promo_name.push("Rollback");
+        this.promo_name.push("Multiahorro");
         this.promo_name = [...new Set(this.promo_name.map(item => item))]
+
         console.log(this.base_line_promotions , "base line promotions")
         },100)
          setTimeout(()=>{
@@ -229,9 +232,9 @@ export class AddPromotionComponent implements OnInit {
             }
         }
        
-        this.valueCoInvestment = 0;
+        this.valueCoInvestment = 100;
         this.valueDiscountdepth = 0;
-        this.valueVolumeondeal =0;
+        this.valueVolumeondeal =100;
         this.form.reset()
         this.errMsg.mechanic = false
         this.errMsg.discount = false
@@ -262,8 +265,8 @@ export class AddPromotionComponent implements OnInit {
             this.volumeOndeal = Object.assign({}, this.volumeOndeal, {disabled: true})
         this.discountdepth = Object.assign({}, this.discountdepth, {disabled: true});
         this.valueDiscountdepth = 0
-        this.valueCoInvestment = 0
-        this.valueVolumeondeal = 0
+        this.valueCoInvestment = 100
+        this.valueVolumeondeal = 100
         }
         else{
             this.coInvestment = Object.assign({}, this.coInvestment, {disabled: false})
@@ -273,11 +276,68 @@ export class AddPromotionComponent implements OnInit {
         }
         this.errMsg.mechanic = false
         this.form.controls['promo'].setValue(e.value);
+        if(e.value == 'Corta Vigencia'){
+            var cotaPpg = this.optimize.get_base_line_promotions().map(e=> this.decodePromotionPpg(e))
+            this.userInPut = cotaPpg[0];
+            this.form.controls['tpr'].setValue( this.userInPut);
+            let finalNum = Utils.genratePromotion(
+                this.userInPut,
+                this.form.value.co_inv,
+                this.form.value.vol_on_deal,
+                "13%",
+                this.form.value.promo
+               )
+               setTimeout(()=>{
+                this.promo_generated = finalNum
+                console.log(finalNum , "final value")
         
+            },500)
+        }else{
+            this.userInPut = 0;
+            this.form.controls['tpr'].setValue( this.userInPut);
+            let finalNum = Utils.genratePromotion(
+                this.userInPut,
+                this.form.value.co_inv,
+                this.form.value.vol_on_deal,
+                "13%",
+                this.form.value.promo
+               )
+               setTimeout(()=>{
+                this.promo_generated = finalNum
+                console.log(finalNum , "final value")
+        
+            },500)
+        }
         console.log(e.value , "selected value");
         console.log(this.form.value , "fomr value")
+    }
+    decodePromotionPpg(promo_name){
+        let mechanicName = promo_name.slice(0,promo_name.indexOf(promo_name.match(/\(.*?\)/g)[0])-1)
+
+        const [promoPrice,costShare,volOnDeal] = promo_name.match(/\(.*?\)/g).map(x => x.replace(/[()]/g, "")).map(e=>e.replace(/[^0-9\.]+/g, "_")).join(',').split('_').filter(e=>e)
+         if(mechanicName == "Corta Vigencia" ){
+            return promoPrice;
+         }
+        
     }
     sliderEvent(){
         this.errMsg.discount = false
     }
+    onKey(event: any){
+        this.userInPut = event;
+        this.form.controls['tpr'].setValue(event);
+        let final = Utils.genratePromotion(
+            event,
+            this.form.value.co_inv,
+            this.form.value.vol_on_deal,
+            "13%",
+            this.form.value.promo
+           )
+           setTimeout(()=>{
+            this.promo_generated = final
+            console.log(final , "final value")
+    
+        },500)
+       
+      }
 }

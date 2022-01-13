@@ -50,7 +50,7 @@
                     <h1 class="text-title-medium text-gray-700 font-medium">Mars & Customer P&L Metrics</h1>
                     <div class="flex flex-row space-x-2">
                         <div class="w-20 h-auto border border-marsgray-100 img-height">
-                            <img class="w-full h-auto" [src]="product|imagePipe" alt="" />
+                            <!-- <img class="w-full h-auto" [src]="product|imagePipe" alt="" /> -->
                         </div>
                         <!-- <div class="w-20 h-auto border border-marsgray-100">
                             <img class="w-full h-auto" src="/assets/subbrand-img/twix.png" alt="" />
@@ -155,9 +155,6 @@
                             <th colspan="1" scope="colgroup">
                                 <nwn-cell-header type="subheadermd" color="bgtransparent">RSV w/o VAT</nwn-cell-header>
                             </th>
-                            <th colspan="1" scope="colgroup">
-                                <nwn-cell-header type="subheadermd" color="bgtransparent" >Trade Margin</nwn-cell-header >
-                            </th>
 
                             <th colspan="1" scope="colgroup">
                                 <nwn-cell-header type="subheadermd" color="bgtransparent">GSV</nwn-cell-header>
@@ -173,6 +170,9 @@
                             </th>
                             <th colspan="1" scope="colgroup">
                                 <nwn-cell-header type="subheadermd" color="bgtransparent">MAC</nwn-cell-header>
+                            </th>
+                            <th colspan="1" scope="colgroup">
+                                <nwn-cell-header type="subheadermd" color="bgtransparent" >Retailer profit</nwn-cell-header >
                             </th>
                             <!-- <th colspan="1" scope="colgroup">
                                 <nwn-cell-header type="subheadermd" color="bgtransparent">MAC,%NSV</nwn-cell-header>
@@ -210,14 +210,13 @@
                     <tbody class="bg-white">
                         <tr class="whitespace-nowrap">
                             <td><nwn-cell-item [differenceFormat]="activeAggregatedTab" [nwnCellData]="rsvWithoutVat"></nwn-cell-item></td>
-                            <td><nwn-cell-item [differenceFormat]="activeAggregatedTab" [nwnCellData]="customerMargin"></nwn-cell-item></td>
 
                             <td><nwn-cell-item [differenceFormat]="activeAggregatedTab" [nwnCellData]="gsv"></nwn-cell-item></td>
                             <td><nwn-cell-item [differenceFormat]="activeAggregatedTab" [nwnCellData]="tradeExpence"></nwn-cell-item></td>
                             <td><nwn-cell-item [differenceFormat]="activeAggregatedTab" [nwnCellData]="nsv"></nwn-cell-item></td>
                             <td><nwn-cell-item [differenceFormat]="activeAggregatedTab" [nwnCellData]="cogs"></nwn-cell-item></td>
                             <td><nwn-cell-item [differenceFormat]="activeAggregatedTab" [nwnCellData]="mac"></nwn-cell-item></td>
-
+                            <td><nwn-cell-item [differenceFormat]="activeAggregatedTab" [nwnCellData]="customerMargin"></nwn-cell-item></td>
                             <!-- <td><nwn-cell-item [differenceFormat]="activeAggregatedTab" [nwnCellData]="mac_nsv"></nwn-cell-item></td>
                             <td><nwn-cell-item [differenceFormat]="activeAggregatedTab" [nwnCellData]="te_lsv"></nwn-cell-item></td>
                             <td><nwn-cell-item [differenceFormat]="activeAggregatedTab" [nwnCellData]="te_units"></nwn-cell-item></td>
@@ -342,16 +341,16 @@
                             <nwn-cell-header type="subheadersm" color="bgwhite">RSV w/o VAT</nwn-cell-header>
                         </th>
                         <th class="sticked freeze_vertical" scope="col">
-                            <nwn-cell-header type="subheadersm" color="bgwhite">Trade margin</nwn-cell-header>
+                            <nwn-cell-header type="subheadersm" color="bgwhite">Retailer profit</nwn-cell-header>
                         </th>
                         <th class="sticked freeze_vertical" scope="col">
-                            <nwn-cell-header type="subheadersm" color="bgwhite">Trade margin,%RSV</nwn-cell-header>
+                            <nwn-cell-header type="subheadersm" color="bgwhite">Trade Expense,%RSV</nwn-cell-header>
                         </th>
                         <th class="sticked freeze_vertical" scope="col">
                             <nwn-cell-header type="subheadersm" color="bgwhite">ASP</nwn-cell-header>
                         </th>
                         <th class="sticked freeze_vertical" scope="col">
-                            <nwn-cell-header type="subheadersm" color="bgwhite">Promo ASP</nwn-cell-header>
+                            <nwn-cell-header type="subheadersm" color="bgwhite">Promo price</nwn-cell-header>
                         </th>
                        
                         <th class="sticked freeze_vertical" scope="col">
@@ -361,20 +360,20 @@
                             <nwn-cell-header type="subheadersm" color="bgwhite">NSV</nwn-cell-header>
                         </th>
                         <th class="sticked freeze_vertical" scope="col">
-                            <nwn-cell-header type="subheadersm" color="bgwhite">MAC, %NSV</nwn-cell-header>
+                            <nwn-cell-header type="subheadersm" color="bgwhite">MAC</nwn-cell-header>
                         </th>
                         <th class="sticked freeze_vertical" scope="col">
                             <nwn-cell-header type="subheadersm" color="bgwhite">Trade expense</nwn-cell-header>
                         </th>
-                        <th class="sticked freeze_vertical" scope="col">
+                        <!-- <th class="sticked freeze_vertical" scope="col">
                             <nwn-cell-header type="subheadersm" color="bgwhite">TE, % GSV</nwn-cell-header>
-                        </th>
+                        </th> -->
                         <th class="sticked freeze_vertical" scope="col">
                             <nwn-cell-header type="subheadersm" color="bgwhite">TE / Unit</nwn-cell-header>
                         </th>
-                        <th class="sticked freeze_vertical" scope="col">
+                        <!-- <th class="sticked freeze_vertical" scope="col">
                             <nwn-cell-header type="subheadersm" color="bgwhite">ROI</nwn-cell-header>
-                        </th>
+                        </th> -->
                         <th class="sticked freeze_vertical" scope="col">
                             <nwn-cell-header type="subheadersm" color="bgwhite">Lift %</nwn-cell-header>
                         </th>
@@ -395,14 +394,14 @@
                         <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.retailer_margin"></nwn-cell-item></td>
                         <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.retailer_margin_percent_of_rsp"></nwn-cell-item></td>
                         <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.asp"></nwn-cell-item></td>
-                        <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.promo_asp"></nwn-cell-item></td>
+                        <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.promo_price"></nwn-cell-item></td>
                         <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.total_lsv"></nwn-cell-item></td>
                         <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.total_nsv"></nwn-cell-item></td>
-                        <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.mars_mac_percent_of_nsv"></nwn-cell-item></td>
+                        <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.mars_mac"></nwn-cell-item></td>
                         <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.trade_expense"></nwn-cell-item></td>
-                        <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.te_percent_of_lsv"></nwn-cell-item></td>
+                        <!-- <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.te_percent_of_lsv"></nwn-cell-item></td> -->
                         <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.te_per_units"></nwn-cell-item></td>
-                        <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.roi"></nwn-cell-item></td>
+                        <!-- <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.roi"></nwn-cell-item></td> -->
                         <td><nwn-cell-item [differenceFormat]="activeWeeklyTab" [nwnCellData]="week.lift_percent"></nwn-cell-item></td>
         
                       

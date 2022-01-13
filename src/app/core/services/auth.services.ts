@@ -68,4 +68,14 @@ export class AuthService {
     // let token = localStorage.getItem('token')
     return this.isLoggedInObservable.asObservable();
   }
+  redirectAuth(){
+    let user = this.userObservable.getValue();
+    var reqHeader = new HttpHeaders({ 
+      'Content-Type': 'application/json',
+      'Authorization': 'Token ' + user.user.id
+   });
+   const userId = btoa(JSON.stringify(user.user.id));
+    return this.http.get( environment.api_url+ 'api/user/redirect-from-promo-to-pricing/'+userId);
+  }
 }
+

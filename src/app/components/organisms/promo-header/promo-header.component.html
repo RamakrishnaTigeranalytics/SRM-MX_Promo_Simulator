@@ -7,7 +7,7 @@
             [link]="'/promo/optimizer'" 
             
             [active]="currentRoute === '/promo/optimizer'"
-            >Promo optimizer
+            >Promo Optimizer
         </nwn-promotool-tab>
         <nwn-promotool-tab
         *ngIf="groups.includes('promo') || groups.includes('admin')"
@@ -18,8 +18,9 @@
             [active]="currentRoute === '/promo/simulator'"
             >Promo scenario builder
         </nwn-promotool-tab>
-
-        <div data-letters="Y" id="userLogo" class="float-right" style="margin-top: 12px;cursor: pointer;" (click)="toggleDisplayDivIf()"></div>
+        <div data-letters="Y" id="userLogo" class="float-right" style="margin-top: 12px;cursor: pointer;" (click)="toggleDisplayDivIf()">
+        
+        </div>
 
             <div *ngIf="!isShowDivIf">
                 <div class="absolute z-50 top-15 right-0 bg-white shadow-sm w-[286px] h-auto signout-popup">

@@ -74,7 +74,7 @@ export function generateMessage1(metric , type){
 return message
 }
 export function generateMessage2(metric){
-  let message = ` Trade Margin `
+  let message = ` Retailer Profit `
   if(metric['arrow'] == "carret-up"){
     message +=  `has increased by ${(metric['converted_difference']).replace(/[()]/g, '')} ${metric['percent']} as compared to the base calendar`
 
@@ -115,13 +115,13 @@ export function generateMessageRandom(index: any,financial_metrics,metric1: any,
   let result3:any = ''
   if(index == 2){
     if(financial_metrics['simulated']['total']['rp'] > financial_metrics['base']['total']['rp']) {
-      result1 +=  'There is an increase of Trade margin by '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' + metric1['percent']
+      result1 +=  'There is an increase of Trade expense by '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' + metric1['percent']
     }
     else if(financial_metrics['simulated']['total']['rp'] < financial_metrics['base']['total']['rp']){
-      result1 +=  'There is an decrease of Trade margin by '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' + metric1['percent']
+      result1 +=  'There is an decrease of Retailer Profit by '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' + metric1['percent']
     }
     else if(financial_metrics['simulated']['total']['rp'] == financial_metrics['base']['total']['rp']) {
-      result1 += 'There is an unchanged value for Trade margin '
+      result1 += 'There is an unchanged value for Trade expense '
     }
 
 
@@ -170,13 +170,13 @@ export function generateMessageRandom(index: any,financial_metrics,metric1: any,
   }
   else if(index == 3){
     if(financial_metrics['simulated']['total']['rp'] > financial_metrics['base']['total']['rp']) {
-      result1 +=  'Opportunity to increase Trade margin by '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' +metric1['percent']
+      result1 +=  'Opportunity to increase  Trade Expenseby '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' +metric1['percent']
     }
     else if(financial_metrics['simulated']['total']['rp'] < financial_metrics['base']['total']['rp']){
-      result1 +=  'Opportunity to decrease Trade margin by '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' +metric1['percent']
+      result1 +=  'Opportunity to decrease Trade Expense by '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' +metric1['percent']
     }
     else if(financial_metrics['simulated']['total']['rp'] == financial_metrics['base']['total']['rp']) {
-      result1 += 'There is an unchanged value for Trade margin '
+      result1 += 'There is an unchanged value for  Trade Expense '
     }
 
     let flagContent: any = ''
@@ -222,13 +222,13 @@ export function generateMessageRandomSimulator(index: any,financial_metrics,metr
   let result3:any = ''
   if(index == 1){
     if(financial_metrics['simulated']['total']['rp'] > financial_metrics['base']['total']['rp']) {
-      result1 +=  'Simulated scenario results in an increase of Trade margin by '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' + metric1['percent']
+      result1 +=  'Simulated scenario results in an increase of Trade expense by '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' + metric1['percent']
     }
     else if(financial_metrics['simulated']['total']['rp'] < financial_metrics['base']['total']['rp']){
-      result1 +=  'Simulated scenario results in an decrease of Trade margin by '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' + metric1['percent']
+      result1 +=  'Simulated scenario results in an decrease of Trade expense by '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' + metric1['percent']
     }
     else if(financial_metrics['simulated']['total']['rp'] == financial_metrics['base']['total']['rp']) {
-      result1 += 'Simulated scenario results has a unchanged value for Trade margin '
+      result1 += 'Simulated scenario results has a unchanged value for Trade expense '
     }
 
 
@@ -271,13 +271,13 @@ export function generateMessageRandomSimulator(index: any,financial_metrics,metr
   }
   else if(index == 2){
     if(financial_metrics['simulated']['total']['rp'] > financial_metrics['base']['total']['rp']) {
-      result1 +=  'Simulated scenario results in an increase of Trade margin by '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' + metric1['percent']
+      result1 +=  'Simulated scenario results in an increase of Trade expense by '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' + metric1['percent']
     }
     else if(financial_metrics['simulated']['total']['rp'] < financial_metrics['base']['total']['rp']){
-      result1 +=  'Simulated scenario results in an decrease of Trade margin by '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' + metric1['percent']
+      result1 +=  'Simulated scenario results in an decrease of Trade expense by '+ (metric1['converted_difference']).replace(/[()]/g, '') + ' ' + metric1['percent']
     }
     else if(financial_metrics['simulated']['total']['rp'] == financial_metrics['base']['total']['rp']) {
-      result1 += 'Simulated scenario results has a unchanged value for Trade margin '
+      result1 += 'Simulated scenario results has a unchanged value for Trade expense '
     }
 
 
@@ -309,121 +309,62 @@ export function generateMessageRandomSimulator(index: any,financial_metrics,metr
   return result1
 }
 
-export function decodePromotion(promo_name:string){
-  // let regex = /\d+(\.\d{0,4})/g
-  let regex = /\d+(?:\.\d{0,4})?/g
-  // /\d+/g
-  // debugger
-  let obj ={
-    "promo_mechanics" : "",
+export function decodePromotion(promo_name){
+
+  let mechanicName = promo_name.slice(0,promo_name.indexOf(promo_name.match(/\(.*?\)/g)[0])-1)
+
+   const [promoPrice,costShare,volOnDeal] = promo_name.match(/\(.*?\)/g).map(x => x.replace(/[()]/g, "")).map(e=>e.replace(/[^0-9\.]+/g, "_")).join(',').split('_').filter(e=>e)
+  console.log(promoPrice,costShare,volOnDeal)
+   let obj ={
+    "promo_activity" : "",
     "promo_price" : 0,
     "cost_share":0,
     "vol_on_deal":0
 
   }
-  if(promo_name.includes("N+1")){
-    obj["promo_mechanics"] = "N+1"
-    let arr:Array<any>|null = promo_name.match(regex) 
-    if(arr?.length ==3){
-      obj["promo_price"] = parseFloat(arr[1])
-      obj["cost_share"] = parseFloat(arr[2])
-      
-    }
-    if(arr?.length ==2){
-      obj["promo_price"] = parseFloat(arr[1])
-      obj["cost_share"] = 0
-    }
-  }
-  else if(promo_name.includes("Motivation")){
-    let arr:Array<any>|null = promo_name.match(regex) 
-    obj["promo_mechanics"] = "Motivation"
-    if(arr?.length ==3){
-      obj["promo_price"] = parseFloat(arr[0])
-      obj["cost_share"] = parseFloat(arr[1])
-      obj["vol_on_deal"] = parseFloat(arr[2])
-    }
-    if(arr?.length ==1){
-      obj["promo_price"] = parseFloat(arr[0])
-      obj["cost_share"] = 0
-    }
-  }
-  else if(promo_name.includes("Traffic")){
-    let arr:Array<any>|null = promo_name.match(regex)
-    obj["promo_mechanics"] = "Traffic"
-    if(arr?.length ==3){
-      obj["promo_price"] = parseFloat(arr[0])
-      obj["cost_share"] = parseFloat(arr[1])
-      obj["vol_on_deal"] = parseFloat(arr[2])
-    }
-    if(arr?.length ==1){
-      obj["promo_price"] = parseFloat(arr[0])
-      obj["cost_share"] = 0
-    }
-  }
-  else if(promo_name.includes("TPR")){
-    // debugger
-    
-    obj["promo_mechanics"] = "TPR"
-    let arr:Array<any>|null = promo_name.match(regex)
-    if(arr?.length ==3){
-      obj["promo_price"] = parseFloat(arr[0])
-      obj["cost_share"] = parseFloat(arr[1])
-      obj["vol_on_deal"] = parseFloat(arr[2])
-    }
-    if(arr?.length ==2){
-      if(promo_name.includes("Co")){
-        obj["promo_price"] = 0
-        obj["cost_share"] = parseFloat(arr[0])
-      }
-      else{
-        obj["promo_price"] = parseFloat(arr[0])
-        obj["cost_share"] = 0
+      // let arr:Array<any>|null = promo_name.match(regex)
+    obj["promo_activity"] = mechanicName??0
+    obj["promo_price"] = parseFloat(promoPrice??0)
+    obj["cost_share"] = parseFloat(costShare??0)
+    obj["vol_on_deal"] = parseFloat(volOnDeal??0)
 
-      }
-     
-    }
-  }
   return obj
-  // "N+1-25% (Co-8%)"
+
 }
 
 
-export function genratePromotion(motivation , n_plus_1, traffic , promo_price , co_inv,vol_on_deal? ){
-  let promo_name = "TPR"
+export function genratePromotion( promo_price , co_inv,vol_on_deal?,promo_depth?,promoActivity?){
+  let promo_name = promoActivity
   let promo_string = ""
-  // debugger
-  // console.log(motivation , n_plus_1, traffic , promo_depth , co_inv , "generate promotion details")
-  if(motivation){
-    promo_name = "Motivation"
 
-  }
-  else if(n_plus_1){
-    promo_name = "N+1"
-  }
-  else if(traffic){
-    promo_name = "Traffic"
-  }
-  if(promo_price){
-  promo_string+=promo_name + "-" + promo_price + ""
-  }
-  if(co_inv){
+  if(promo_depth){
     if(promo_price){
-      promo_string+= " (Co-"+co_inv+"%)"
-    }
-    else{
-      promo_string+=promo_name + " (Co-"+co_inv+"%)"
+      promo_string+=promo_name + "-" + "(Pp-"+promo_price+","+ ""
+      }
+      if(co_inv){
+        if(promo_price){
+          promo_string+= "Co-"+co_inv.toFixed(2)+"%,"
+        }
+        else{
+          promo_string+=promo_name + " Co-"+co_inv.toFixed(2)+"%,"
+    
+        }
+       
+      }else{
+        promo_string+= " Co-"+100+"%,"
+      }
+      if(vol_on_deal){
+        if(promo_price){
+          promo_string+= " Vol-"+vol_on_deal.toFixed(2)+"%)"
+        }else {
+          promo_string+=promo_name + " Vol-"+vol_on_deal.toFixed(2)+"%)"
+        }
+       
+      }else{
+        promo_string+= " Vol-"+100+"%)"
+      }
+  }
 
-    }
-   
-  }
-  if(vol_on_deal){
-    if(promo_price){
-      promo_string+= " (Vol-"+vol_on_deal+"%)"
-    }else {
-      promo_string+=promo_name + " (Vol-"+vol_on_deal+"%)"
-    }
-   
-  }
   // console.log(promo_string , "generate promotion details promo-string")
   return promo_string
 }
@@ -433,7 +374,7 @@ export function convertCurrency(value:any , per?:any , is_curr = true){
     if(value){
       let symbol = ""
       if(is_curr){
-        symbol  = " ₽"
+        symbol  = " $ "
 
       }
       
@@ -470,8 +411,8 @@ export function convertCurrency(value:any , per?:any , is_curr = true){
     // if(debug){
     //   debugger
     // }
-    a  = parseFloat(a.toFixed(4));
-    b  = parseFloat(b.toFixed(4));
+    a  = parseFloat(a.toFixed(2));
+    b  = parseFloat(b.toFixed(2));
     
     if (a == 0 && b == 0){
         return (0).toFixed(2)
@@ -502,7 +443,7 @@ export function formatNumber(number: any,currency: boolean,percentage: boolean,d
   // if(debug){
   //   debugger
   // }
-  number  = parseFloat(number.toFixed(4));
+  number  = parseFloat(number.toFixed(2));
   
     var SI_SYMBOL = ["", "K", "M", "B", "T", "P", "E"];
     // what tier? (determines SI symbol)
@@ -512,8 +453,8 @@ export function formatNumber(number: any,currency: boolean,percentage: boolean,d
     if(tier == 0) return number.toFixed(2);
 
     // get suffix and determine scale
-    var suffix = SI_SYMBOL[tier];
-    var scale = Math.pow(10, tier * 3);
+    var suffix = SI_SYMBOL[tier]?? 0;
+    var scale = Math.pow(10, tier * 3)?? 0;
 
     // scale the number
     var scaled = number / scale;
@@ -523,7 +464,7 @@ export function formatNumber(number: any,currency: boolean,percentage: boolean,d
     }
 
     if(currency && !percentage){
-        return scaled.toFixed(1) + suffix + ' ₽';
+        return '$ '+scaled.toFixed(1) + suffix ;
     }
     // format number and add suffix
     return scaled.toFixed(1) + suffix;

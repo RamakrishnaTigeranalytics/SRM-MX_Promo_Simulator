@@ -8,7 +8,7 @@ import { ListPromotion } from '@core/models';
 })
 export class PromoSimulatorScenarioComponent {
 
-    symbol = "₽"
+    symbol = "$"
 
     @Input()
     promotion_viewed : ListPromotion = {

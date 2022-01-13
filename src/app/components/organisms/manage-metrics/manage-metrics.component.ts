@@ -29,8 +29,8 @@ export class ManageMetricsComponent implements OnInit {
     {"value":"ASP","checked":true},
     {"value":"Promo ASP","checked":true},
     {"value":"RSV w/o VAT","checked":true},
-    {"value":"Trade Margin","checked":true},
-    {"value":"Trade Margin,%RSV","checked":true}
+    {"value":"Retailer Profit","checked":true},
+    {"value":"Trade Expense,%RSV","checked":true}
   ]
 
   other_metrics:Array<CheckboxModel> = [

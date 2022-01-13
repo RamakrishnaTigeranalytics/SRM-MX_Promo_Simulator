@@ -21,11 +21,7 @@
                     <nwn-menu-item
                         type="stroke"
                         nwnSvgIcon="pricing-tool"
-                       
-                        [link]="'/pricing-tool'" 
-
-                       
-                        
+                    (click)="redirectPage('price-tool')"
                         >Pricing tools</nwn-menu-item
                     >
                     <!-- href="/pricing-tool" [link]="'/pricing'"  (click) = "redirectPage()" -->
@@ -33,7 +29,7 @@
                     <nwn-menu-item
                         type="stroke"
                         nwnSvgIcon="promo-tool"
-                        [link]="'/promo'" 
+                        (click)="redirectPage('promo-tool')"
                        
                        
                         >Promo tool</nwn-menu-item
@@ -42,9 +38,9 @@
                     <!-- href="/promo-tool/promo-scenario-builder" --> 
                 </div>
                 <div class="flex flex-col space-y-6 pt-6">
-                    <nwn-menu-item type="stroke" nwnSvgIcon="profit-tool" [link]="'/profit'" >Profit tool</nwn-menu-item>
-                    <nwn-menu-item type="stroke" nwnSvgIcon="pricing-capabilities" [link]="'/pricing'">Pricing Capabilities</nwn-menu-item>
-                    <nwn-menu-item type="stroke" nwnSvgIcon="srm-insight"  [link]="'/srm'">SRM insights</nwn-menu-item>
+                    <nwn-menu-item type="stroke" nwnSvgIcon="profit-tool"  (click)="redirectPage('price-tracker')">Price Execution Tracker</nwn-menu-item>
+                    <nwn-menu-item type="stroke" nwnSvgIcon="pricing-capabilities" (click)="redirectPage('price-pack')">Price Pack Dashboard<</nwn-menu-item>
+                    <nwn-menu-item type="stroke" nwnSvgIcon="srm-insight"  (click)="redirectPage('srm-insight')">SRM insights</nwn-menu-item>
                 </div>
             </div>
         </div>

@@ -18,7 +18,7 @@ export class OptimizeFunctionComponent extends ModalApply implements OnInit{
 
 objective_function = [
   {'name':'Maximize MAC','nwnSvgIcon': 'trending-up', 'value': 'Maximize MAC'},
-  {'name':'Maximize Trade Margin', 'nwnSvgIcon': 'trending-up', 'value': 'Maximize TM'},
+  {'name':'Maximize Sales', 'nwnSvgIcon': 'trending-up', 'value': 'Maximize TM'},
   {'name':'Minimize Trade Expense','nwnSvgIcon': 'trending-down', 'value': 'Minimize TE'}
 ]
 constructor(public optimizerService: OptimizerService,public modalService: ModalService) {

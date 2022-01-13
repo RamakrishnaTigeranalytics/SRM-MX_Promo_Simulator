@@ -254,7 +254,7 @@ export class OptimizerService {
     
   }  
   savePromoScenario(requestData: any):Observable<any>{
-    return this.apiService.post<any>('api/scenario/save/' , requestData)
+    return this.apiService.post<any>('api/scenario/savescenario/' , requestData)
   }
   updatePromoScenario(requestData: any):Observable<any>{
     return this.apiService.post<any>('api/scenario/update/' , requestData)
@@ -302,6 +302,7 @@ export class OptimizerService {
   }
 
   insert_base_line_promotion(promotions:string){
+    // debugger
       this.base_line_promotion.push(promotions)
   }
   set_baseline_null(){

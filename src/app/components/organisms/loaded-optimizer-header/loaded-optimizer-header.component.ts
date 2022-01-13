@@ -292,7 +292,6 @@ console.log(this.cumpulsory_week_val , "week validation cumpulsory_week_val")
 
     }
     configChangeEvent($event){
-        // debugger
         console.log($event , "config change event")
         this.modalClose.emit($event["id"])
        
@@ -324,7 +323,7 @@ this.checkboxMetrices.find(d=>{
         if(this.selected_objective.includes("MAC")){
             this.checkboxMetrices.find(d=>{
                 if(d.checkboxLabel == "MAC"){
-                    d.disabled = true
+                    d.disabled = false
 
                 }
                
@@ -337,14 +336,14 @@ this.checkboxMetrices.find(d=>{
         }
         else if(this.selected_objective.includes("TM")){
             this.checkboxMetrices.find(d=>{
-                if(d.checkboxLabel == "Trade margin"){
-                    d.disabled = true
+                if(d.checkboxLabel == "Sales"){
+                    d.disabled = false
 
                 }
                
             })
             this.checkboxMetrices.filter(d=>{
-                if(d.checkboxLabel!="Trade margin"){
+                if(d.checkboxLabel!="Sales"){
                     d.disabled = false
                 }
             })
@@ -353,7 +352,7 @@ this.checkboxMetrices.find(d=>{
         else if(this.selected_objective.includes("TE")){
             this.checkboxMetrices.find(d=>{
                 if(d.checkboxLabel == "Trade expense"){
-                    d.disabled = true
+                    d.disabled = false
 
                 }
                
@@ -374,7 +373,7 @@ this.checkboxMetrices.find(d=>{
         let temp = this.selected_objective.split(' ')
         this.ObjectiveFunction.min_or_max = temp[0]
         if(temp[1] == "TM"){
-            this.ObjectiveFunction.metric = 'Trade Margin'
+            this.ObjectiveFunction.metric = 'Sales'
         }
         else if(temp[1] == "TE"){
             this.ObjectiveFunction.metric = 'Trade Expense'
@@ -393,7 +392,6 @@ this.checkboxMetrices.find(d=>{
         // debugger
         if(type=="optimize"){
             let form = this.optimizerData()
-           
 
             if(this.info_promotion?.scenario_type == "pricing"){
                 form = {...this.optimizerData() , ...{"pricing" : this.info_promotion.meta[0].pricing}}
@@ -430,6 +428,12 @@ this.checkboxMetrices.find(d=>{
         if(id == 'rp-per-popup'){
             ret = 'TM_Perc'
         }
+        if(id == 'sales-per-popup'){
+            ret = 'Sales'
+        }
+        if(id == 'units-per-popup'){
+            ret = 'Units'
+        }
         return ret
     }
     optimizerData(){
@@ -446,7 +450,16 @@ this.checkboxMetrices.find(d=>{
       let te:number =  parseFloat(this.checkboxMetrices.find(d=>d.id == "te-popup")['checkHeadValue'].split("x")[1])
       let mac_nsv:number =  parseFloat(this.checkboxMetrices.find(d=>d.id == "mac-per-popup")['checkHeadValue'].split("x")[1])
       let rp_rsv:number =  parseFloat(this.checkboxMetrices.find(d=>d.id == "rp-per-popup")['checkHeadValue'].split("x")[1])
-    //   debugger
+      let sales:number = parseFloat(this.checkboxMetrices.find(d=>d.id == "sales-per-popup")['checkHeadValue'].split("x")[1])
+      let units:number = parseFloat(this.checkboxMetrices.find(d=>d.id == "units-per-popup")['checkHeadValue'].split("x")[1])
+
+      let is_mac:number =  this.checkboxMetrices.find(d=>d.id == "mac-popup")['checked']
+      let is_rp:number =  this.checkboxMetrices.find(d=>d.id == "retailer-popup")['checked']
+      let is_te:number =  this.checkboxMetrices.find(d=>d.id == "te-popup")['checked']
+      let is_mac_nsv:number =  this.checkboxMetrices.find(d=>d.id == "mac-per-popup")['checked']
+      let is_rp_rsv:number =  this.checkboxMetrices.find(d=>d.id == "rp-per-popup")['checked']
+      let is_sales:number = this.checkboxMetrices.find(d=>d.id == "sales-per-popup")['checked']
+      let is_units:number = this.checkboxMetrices.find(d=>d.id == "units-per-popup")['checked']
         // Utils.decodePromotion()
         // checkboxMetrices "Fin_Pref_Order":['Trade_Expense',"TM_Perc",'MAC_Perc','TM','MAC'],
         // checkHeadValue: 'x0.50',
@@ -464,8 +477,11 @@ this.checkboxMetrices.find(d=>{
         }
         let objective_function:any = this.selected_objective.replace("Maximize " , "").replace("Minimize " , "")
         if(objective_function == 'TM'){
-            objective_function = 'RP'
+            objective_function = 'Sales'
+        }else if(objective_function == 'TE'){
+            objective_function = 'Trade_Expense'
         }
+        
         return {
             "fin_pref_order" : fin_pref_order,
             "objective_function" : objective_function,
@@ -474,19 +490,24 @@ this.checkboxMetrices.find(d=>{
             "param_promo_gap" : this.param_gap_max,
             "param_total_promo_min" : this.min_week,
             "param_total_promo_max":this.max_week,
-            "mars_tpr": decoded.map(d=>d.promo_price),
-            "cost_share" : decoded.map(d=>d.cost_share),
-            "promo_mech" : decoded.map(d=>d.promo_mechanics),
-            "config_mac" : mac != 1,
+            "mars_promo_price": decoded.map(d=>d.promo_price),
+            "cost_share" :decoded.map(d=>d.cost_share),
+            "volume_on_deal":decoded.map(d=>d.vol_on_deal),
+            "promo_activity" : decoded.map(d=>d.promo_activity),
+            "config_mac" : is_mac,
             "param_mac" : mac,
-            "config_rp" : rp != 1,
+            "config_rp" : is_rp,
             "param_rp" : rp,
-            "config_trade_expense" : te != 1,
+            "config_trade_expense" : is_te,
             "param_trade_expense" : te,
-            "config_mac_perc" : mac_nsv != 1,
+            "config_mac_perc" : is_mac_nsv,
             "param_mac_perc" : mac_nsv,
-            "config_rp_perc" : rp_rsv != 1,
+            "config_rp_perc" : is_rp_rsv,
+            "config_sales" : is_sales,
+            "config_units" : is_units,
             "param_rp_perc" : rp_rsv , 
+            "param_sales" : sales , 
+            "param_units" : units , 
             "param_compulsory_no_promo_weeks" : this.ignored_week_val.map(d=>d.week),
             "param_compulsory_promo_weeks" : this.cumpulsory_week_val.map(d=>d.week),
         }
@@ -520,7 +541,6 @@ this.checkboxMetrices.find(d=>{
     }
     populateConfig(configData :OptimizerConfigModel ){
         // configData.param_mac
-
         this.checkboxMetrices.filter(d=>{
             if(d.id == "mac-popup"){
                 // d.disabled = true
@@ -547,21 +567,33 @@ this.checkboxMetrices.find(d=>{
                 d.checkHeadValue = "x" + configData.param_rp_perc
 
             }
+            if(d.id == "sales-per-popup"){
+                // d.disabled = configData.config_rp_perc
+                d.checkHeadValue = "x" + configData.param_sales
+
+            }
+            if(d.id == "units-per-popup"){
+                // d.disabled = configData.config_rp_perc
+                d.checkHeadValue = "x" + configData.param_units
+
+            }
              
         })
     }
+
     populatePromotion(weekdata : ProductWeek[]){
+        // debugger
         this.promotions = []
         this.product_week = this.optimizer_data.weekly
-        
+
                 
                 weekdata.forEach(data=>{
                     let gen_promo = Utils.genratePromotion(
-                        parseFloat(data.flag_promotype_motivation) , 
-                        parseFloat(data.flag_promotype_n_pls_1),
-                        parseFloat(data.flag_promotype_traffic),
-                        parseFloat(data.promo_price) , 
-                        parseFloat(data.cost_share)
+                        parseFloat(data.promo_price.toFixed(2)) , 
+                        parseFloat(data.cost_share),
+                        parseFloat(data.volume_on_deal),
+                        parseFloat(data.promo_depth),
+                        data.promo_activity
                     )
                     data.promotion_name = gen_promo
                     if(gen_promo && !this.promotions.includes(gen_promo)){
@@ -577,7 +609,7 @@ this.checkboxMetrices.find(d=>{
                     data.cost_share = (data.cost_share)
     
                 })
-
+            
                 console.log(this.promotions , "generated promotions for optimizer")
 
     }
@@ -609,7 +641,7 @@ this.checkboxMetrices.find(d=>{
         {
             id:"retailer-popup",
             checkHeadValue: 'x0.75',
-            checkboxLabel: 'Trade margin',
+            checkboxLabel: 'Retailer profit',
             disabled: false,
             checked : false,
            
@@ -633,7 +665,23 @@ this.checkboxMetrices.find(d=>{
         {
             id:"rp-per-popup",
             checkHeadValue: 'x1.00',
-            checkboxLabel: 'TM, % RSV',
+            checkboxLabel: 'TE% RSV',
+            disabled: false,
+            checked : false,
+             
+        },
+        {
+            id:"sales-per-popup",
+            checkHeadValue: 'x1.00',
+            checkboxLabel: 'Sales',
+            disabled: false,
+            checked : false,
+             
+        },
+        {
+            id:"units-per-popup",
+            checkHeadValue: 'x1.00',
+            checkboxLabel: 'Units',
             disabled: false,
             checked : false,
              

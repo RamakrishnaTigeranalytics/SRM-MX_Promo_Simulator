@@ -69,6 +69,20 @@
         <div *ngIf="title">
             <nwn-loaded-scenarioitem (openInfoEvent) = "openInfoEvent($event)" [title] = "title"></nwn-loaded-scenarioitem>
         </div>
+
+        <div style="
+        display: flex;
+        justify-content: center;
+        align-items: end;
+    ">
+     <h3 class="ml-2" style="margin-right: 10px;">Currency:<label style="font-weight: bold;">MXN Pesos</label></h3>
+
+    <!-- <div class="image">
+        <img class="w-16"
+        src="/assets/subbrand-img/mexico.png" alt="" />
+      </div> -->
+         </div>
+                 
     </div>
     <!-- <div class="flex flex-col">
         <nwn-loaded-scenario-expand></nwn-loaded-scenario-expand>
@@ -135,14 +149,14 @@
                 </div>
                 <div class="mr-2">
                     <nwn-metric-item nwnMetricItem="multipleValues" (click)="sendMessage('promotion-details')">
-                        <div multipleValue class="flex flex-row">
-                            <p *ngFor="let promotion of promotions">{{promotion}},</p>
+                        <div multipleValue>
+                            <p *ngFor="let promotion of promotions">{{promotion}},</p><br>
                             <!-- <p>N+1-10% (Co-10%)</p>
                             <p>N+1-10%, 20%, 32%</p>
                             <p>N+3-10%</p> -->
                         </div>
-                        <div multipleHeadValue class="flex flex-row">
-                            <p *ngFor="let promotion of selected_promotions">{{promotion}},</p>
+                        <div multipleHeadValue >
+                            <p *ngFor="let promotion of selected_promotions">{{promotion}},</p><br>
                             <!-- <p>TPR - 10%,15% (Co-10%)</p>
                             <p>N+1-10%</p>
                             <p>N+2-10%, 20%, 30%</p> -->
@@ -335,7 +349,7 @@
 
 <!-- nwn-mac-popup -->
 <nwn-modal id="retailer-popup" class="hidden">
-    <nwn-mac-popup [ip_val] = "ip_val" (configChangeEvent) = "configChangeEvent($event)" [label] = "'Trade margin'"></nwn-mac-popup>
+    <nwn-mac-popup [ip_val] = "ip_val" (configChangeEvent) = "configChangeEvent($event)" [label] = "'Retailer profit'"></nwn-mac-popup>
 </nwn-modal>
 
 <nwn-modal id="te-popup" class="hidden">
@@ -347,13 +361,19 @@
 </nwn-modal>
 
 <nwn-modal id="rp-per-popup" class="hidden">
-    <nwn-mac-popup [ip_val] = "ip_val" (configChangeEvent) = "configChangeEvent($event)" [label] = "'TM, % RSV'"></nwn-mac-popup>
+    <nwn-mac-popup [ip_val] = "ip_val" (configChangeEvent) = "configChangeEvent($event)" [label] = "'TE, % RSV'"></nwn-mac-popup>
+</nwn-modal>
+<nwn-modal id="sales-per-popup" class="hidden">
+    <nwn-mac-popup [ip_val] = "ip_val" (configChangeEvent) = "configChangeEvent($event)" [label] = "'Sales'"></nwn-mac-popup>
+</nwn-modal>
+<nwn-modal id="units-per-popup" class="hidden">
+    <nwn-mac-popup [ip_val] = "ip_val" (configChangeEvent) = "configChangeEvent($event)" [label] = "'Units'"></nwn-mac-popup>
 </nwn-modal>
 <!--  -->
 
 <!-- promotion details -->
 <nwn-modal id="promotion-details" class="hidden">
-    <nwn-promotion-details (promotionAddEvent) = "promotionAddEvent($event)" *ngIf="promotions.length>0" [base_promotions]="promotions"></nwn-promotion-details>
+    <nwn-promotion-details (promotionAddEvent) = "promotionAddEvent($event)" *ngIf="promotions.length>0" [base_promotions]="promotions" ></nwn-promotion-details>
 </nwn-modal>
 
 

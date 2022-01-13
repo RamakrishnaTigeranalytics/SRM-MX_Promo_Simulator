@@ -102,15 +102,16 @@ export class PlChartComponent implements OnInit,OnChanges {
             .nice();
         const yAxisGenerator = d3.axisLeft(yScale);
         function dollarFormat(d: any) { 
+            // debugger
             var num :any = d
             if(num == 0){
                 num = 0
                 return num
             } 
             if(num.toString()[1] != undefined && num.toString()[1] == "0"){
-                return (d3.format('.1s')(d) + ' ₽').replace(/G/,"B")
+                return ('$ '+ d3.format('.1s')(d)).replace(/G/,"B")
             }
-            return  (d3.format('.2s')(d) + ' ₽').replace(/G/,"B")
+            return  ('$ ' + d3.format('.2s')(d)).replace(/G/,"B")
         };
 
         this.svg

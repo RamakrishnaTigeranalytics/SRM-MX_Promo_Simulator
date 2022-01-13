@@ -224,6 +224,9 @@ export class PromoOptimizerComponent implements OnInit {
             else if(event.key == 'Strategic cells'){
                 // this.filter_model.strategic_cell = this.selected_strategic_cell
                 this.filter_model = {...this.filter_model , ...{"strategic_cell" : this.selected_strategic_cell}}
+            }else if(event.key == 'Subsegment'){
+                this.filter_model = {...this.filter_model , ...{"sub_segment" : this.selected_sub_segment}}
+                 
             }
             else if(event.key == 'Brands'){
                 // this.filter_model.brand = this.selected_brand
@@ -259,6 +262,7 @@ export class PromoOptimizerComponent implements OnInit {
             this.retailers.filter(val=>val.value == event.value).forEach(val=>val.checked = true)
             this.categories = [...new Set(this.product.filter(val=>val.account_name == event.value).map(item => item.category))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
             this.product_group = [...new Set(this.product.filter(val=>val.account_name == event.value).map(item => item.product_group))].map(e=>({"value" : e,"checked" : (e===this.selected_product)}));
+            this.sub_Segment = [...new Set(this.product.filter(val=>val.account_name == event.value).map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_sub_segment)}));
             this.strategic_cell = [...new Set(this.product.filter(val=>val.account_name == event.value).map(item => item.strategic_cell_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_strategic_cell)}));
             this.brands_format = [...new Set(this.product.filter(val=>val.account_name == event.value).map(item => item.brand_format_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand_format)}));
             this.brands = [...new Set(this.product.filter(val=>val.account_name == event.value).map(item => item.brand_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand)}));
@@ -268,8 +272,9 @@ export class PromoOptimizerComponent implements OnInit {
         else{
             this.selected_retailer = 'Retailers'
 
-            this.categories = [...new Set(this.product.map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
+            this.categories = [...new Set(this.product.map(item => item.category))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
         this.product_group = [...new Set(this.product.map(item => item.product_group))].map(e=>({"value" : e,"checked" : (e===this.selected_product)}));
+        this.sub_Segment = [...new Set(this.product.map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this. selected_sub_segment)}));
         this.strategic_cell = [...new Set(this.product.map(item => item.strategic_cell_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_strategic_cell)}));
         this.brands_format = [...new Set(this.product.map(item => item.brand_format_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand_format)}));
         this.brands = [...new Set(this.product.map(item => item.brand_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand)}));
@@ -287,16 +292,18 @@ export class PromoOptimizerComponent implements OnInit {
             this.categories.filter(val=>val.value == event.value).forEach(val=>val.checked = true)
             this.selected_category = event.value
             // this.filter_model.category = this.selected_category
-            this.strategic_cell = [...new Set(this.product.filter(val=>val.corporate_segment == event.value).map(item => item.strategic_cell_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_strategic_cell)}));
-        this.product_group = [...new Set(this.product.filter(val=>val.corporate_segment == event.value).map(item => item.product_group))].map(e=>({"value" : e,"checked" :  (e===this.selected_product)}));
-        this.retailers = [...new Set(this.product.filter(val=>val.corporate_segment == event.value).map(item => item.account_name))].map(e=>({"value" : e,"checked" : (e===this.selected_retailer)}));
-        this.brands_format = [...new Set(this.product.filter(val=>val.corporate_segment == event.value).map(item => item.brand_format_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand_format)}));
-        this.brands = [...new Set(this.product.filter(val=>val.corporate_segment == event.value).map(item => item.brand_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand)}));
+            this.sub_Segment = [...new Set(this.product.filter(val=>val.category == event.value).map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_sub_segment)}));
+            this.strategic_cell = [...new Set(this.product.filter(val=>val.category == event.value).map(item => item.strategic_cell_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_strategic_cell)}));
+            this.product_group = [...new Set(this.product.filter(val=>val.category == event.value).map(item => item.product_group))].map(e=>({"value" : e,"checked" :  (e===this.selected_product)}));
+            this.retailers = [...new Set(this.product.filter(val=>val.category == event.value).map(item => item.account_name))].map(e=>({"value" : e,"checked" : (e===this.selected_retailer)}));
+            this.brands_format = [...new Set(this.product.filter(val=>val.category == event.value).map(item => item.brand_format_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand_format)}));
+            this.brands = [...new Set(this.product.filter(val=>val.category == event.value).map(item => item.brand_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand)}));
 
 
         }
         else{
             this.selected_category = 'Category'
+            this.sub_Segment = [...new Set(this.product.map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this. selected_sub_segment)}));
             this.strategic_cell = [...new Set(this.product.map(item => item.strategic_cell_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_strategic_cell)}));
             this.product_group = [...new Set(this.product.map(item => item.product_group))].map(e=>({"value" : e,"checked" :  (e===this.selected_product)}));
             this.retailers = [...new Set(this.product.map(item => item.account_name))].map(e=>({"value" : e,"checked" : (e===this.selected_retailer)}));
@@ -308,33 +315,34 @@ export class PromoOptimizerComponent implements OnInit {
         
     }
 
-    strategicCellChange(event:CheckboxModel){
-        this.strategic_cell.filter(val=>val.value != event.value).forEach(val=>val.checked = false)
-        if(event.checked){
-            this.selected_strategic_cell = event.value
-            this.strategic_cell.filter(val=>val.value == event.value).forEach(val=>val.checked = true)
-            // this.filter_model.strategic_cell = this.selected_strategic_cell
-        this.categories = [...new Set(this.product.filter(val=>val.strategic_cell_filter == event.value).map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
-        this.product_group = [...new Set(this.product.filter(val=>val.strategic_cell_filter == event.value).map(item => item.product_group))].map(e=>({"value" : e,"checked" : (e===this.selected_product)}));
-        this.retailers = [...new Set(this.product.filter(val=>val.strategic_cell_filter == event.value).map(item => item.account_name))].map(e=>({"value" : e,"checked" : (e===this.selected_retailer)}));
-        this.brands_format = [...new Set(this.product.filter(val=>val.strategic_cell_filter == event.value).map(item => item.brand_format_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand_format)}));
-        this.brands = [...new Set(this.product.filter(val=>val.strategic_cell_filter == event.value).map(item => item.brand_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand)}));
-        }
-        else{
-            this.selected_strategic_cell = 'Strategic cells'
-            this.categories = [...new Set(this.product.map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
-            this.product_group = [...new Set(this.product.map(item => item.product_group))].map(e=>({"value" : e,"checked" : (e===this.selected_product)}));
-            this.retailers = [...new Set(this.product.map(item => item.account_name))].map(e=>({"value" : e,"checked" : (e===this.selected_retailer)}));
-            this.brands_format = [...new Set(this.product.map(item => item.brand_format_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand_format)}));
-            this.brands = [...new Set(this.product.map(item => item.brand_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand)}));
+    // strategicCellChange(event:CheckboxModel){
+    //     this.strategic_cell.filter(val=>val.value != event.value).forEach(val=>val.checked = false)
+    //     if(event.checked){
+    //         this.selected_strategic_cell = event.value
+    //         this.strategic_cell.filter(val=>val.value == event.value).forEach(val=>val.checked = true)
+    //         // this.filter_model.strategic_cell = this.selected_strategic_cell
+    //     this.categories = [...new Set(this.product.filter(val=>val.strategic_cell_filter == event.value).map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
+    //     this.product_group = [...new Set(this.product.filter(val=>val.strategic_cell_filter == event.value).map(item => item.product_group))].map(e=>({"value" : e,"checked" : (e===this.selected_product)}));
+    //     this.retailers = [...new Set(this.product.filter(val=>val.strategic_cell_filter == event.value).map(item => item.account_name))].map(e=>({"value" : e,"checked" : (e===this.selected_retailer)}));
+    //     this.brands_format = [...new Set(this.product.filter(val=>val.strategic_cell_filter == event.value).map(item => item.brand_format_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand_format)}));
+    //     this.brands = [...new Set(this.product.filter(val=>val.strategic_cell_filter == event.value).map(item => item.brand_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand)}));
+    //     }
+    //     else{
+    //         this.selected_strategic_cell = 'Strategic cells'
+    //         this.categories = [...new Set(this.product.map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
+    //         this.product_group = [...new Set(this.product.map(item => item.product_group))].map(e=>({"value" : e,"checked" : (e===this.selected_product)}));
+    //         this.retailers = [...new Set(this.product.map(item => item.account_name))].map(e=>({"value" : e,"checked" : (e===this.selected_retailer)}));
+    //         this.brands_format = [...new Set(this.product.map(item => item.brand_format_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand_format)}));
+    //         this.brands = [...new Set(this.product.map(item => item.brand_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand)}));
 
 
-        }
+    //     }
        
         
 
-    }
+    // }
     subSegmentChange(event:CheckboxModel){
+        // debugger
         this.sub_Segment.filter(val=>val.value != event.value).forEach(val=>val.checked = false)
         if(event.checked){
             this.selected_sub_segment = event.value
@@ -361,25 +369,28 @@ export class PromoOptimizerComponent implements OnInit {
 
     }
     brandChange(event:CheckboxModel){
+        // debugger
         this.brands.filter(val=>val.value != event.value).forEach(val=>val.checked = false)
         if(event.checked){
             this.selected_brand = event.value
             this.brands.filter(val=>val.value == event.value).forEach(val=>val.checked = true)
-            // this.filter_model.brand = this.selected_brand
+            // this.filter_model.brand = this.selected_brand this.sub_Segment = [...new Set(this.product.filter(val=>val.brand_filter == event.value).map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_sub_segment)}));
+            this.sub_Segment = [...new Set(this.product.filter(val=>val.brand_filter == event.value).map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_sub_segment)}));
             this.strategic_cell = [...new Set(this.product.filter(val=>val.brand_filter == event.value).map(item => item.strategic_cell_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_strategic_cell)}));
             this.product_group = [...new Set(this.product.filter(val=>val.brand_filter == event.value).map(item => item.product_group))].map(e=>({"value" : e,"checked" : (e===this.selected_product)}));
             this.retailers = [...new Set(this.product.filter(val=>val.brand_filter == event.value).map(item => item.account_name))].map(e=>({"value" : e,"checked" : (e===this.selected_retailer)}));
             this.brands_format = [...new Set(this.product.filter(val=>val.brand_filter == event.value).map(item => item.brand_format_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand_format)}));
-            this.categories = [...new Set(this.product.filter(val=>val.brand_filter == event.value).map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
+            this.categories = [...new Set(this.product.filter(val=>val.brand_filter == event.value).map(item => item.category))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
     
         }
         else{
             this.selected_brand = 'Brands'
+            this.sub_Segment = [...new Set(this.product.map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this. selected_sub_segment)}));
             this.strategic_cell = [...new Set(this.product.map(item => item.strategic_cell_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_strategic_cell)}));
             this.product_group = [...new Set(this.product.map(item => item.product_group))].map(e=>({"value" : e,"checked" : (e===this.selected_product)}));
             this.retailers = [...new Set(this.product.map(item => item.account_name))].map(e=>({"value" : e,"checked" : (e===this.selected_retailer)}));
             this.brands_format = [...new Set(this.product.map(item => item.brand_format_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand_format)}));
-            this.categories = [...new Set(this.product.map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
+            this.categories = [...new Set(this.product.map(item => item.category))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
     
 
         }
@@ -396,8 +407,9 @@ export class PromoOptimizerComponent implements OnInit {
             this.product_group = [...new Set(this.product.filter(val=>val.brand_format_filter == event.value).map(item => item.product_group))].map(e=>({"value" : e,"checked" : (e===this.selected_product)}));
             this.retailers = [...new Set(this.product.filter(val=>val.brand_format_filter == event.value).map(item => item.account_name))].map(e=>({"value" : e,"checked" : (e===this.selected_retailer)}));
             this.brands = [...new Set(this.product.filter(val=>val.brand_format_filter == event.value).map(item => item.brand_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand)}));
-            this.categories = [...new Set(this.product.filter(val=>val.brand_format_filter == event.value).map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
-    
+            this.categories = [...new Set(this.product.filter(val=>val.brand_format_filter == event.value).map(item => item.category))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
+            this.sub_Segment = [...new Set(this.product.filter(val=>val.brand_format_filter == event.value).map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_sub_segment)}));
+
         }
         else{
             this.selected_brand_format = 'Brand Formats'
@@ -405,8 +417,9 @@ export class PromoOptimizerComponent implements OnInit {
             this.product_group = [...new Set(this.product.map(item => item.product_group))].map(e=>({"value" : e,"checked" : (e===this.selected_product)}));
             this.retailers = [...new Set(this.product.map(item => item.account_name))].map(e=>({"value" : e,"checked" : (e===this.selected_retailer)}));
             this.brands = [...new Set(this.product.map(item => item.brand_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand)}));
-            this.categories = [...new Set(this.product.map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
-    
+            this.categories = [...new Set(this.product.map(item => item.category))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
+            this.sub_Segment = [...new Set(this.product.map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this. selected_sub_segment)}));
+
 
         }
            }
@@ -416,20 +429,23 @@ export class PromoOptimizerComponent implements OnInit {
             this.selected_product = event.value
             this.product_group.filter(val=>val.value == event.value).forEach(val=>val.checked = true)
             // this.filter_model.product_group = this.selected_product
+            this.sub_Segment = [...new Set(this.product.filter(val=>val.product_group == event.value).map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_sub_segment)}));
             this.strategic_cell = [...new Set(this.product.filter(val=>val.product_group == event.value).map(item => item.strategic_cell_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_strategic_cell)}));
             this.brands = [...new Set(this.product.filter(val=>val.product_group == event.value).map(item => item.brand_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand)}));
             this.retailers = [...new Set(this.product.filter(val=>val.product_group == event.value).map(item => item.account_name))].map(e=>({"value" : e,"checked" : (e===this.selected_retailer)}));
             this.brands_format = [...new Set(this.product.filter(val=>val.product_group == event.value).map(item => item.brand_format_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand_format)}));
-            this.categories = [...new Set(this.product.filter(val=>val.product_group == event.value).map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
+            this.categories = [...new Set(this.product.filter(val=>val.product_group == event.value).map(item => item.category))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
     
         }
         else{
             this.selected_product = 'Product groups'
+            this.sub_Segment = [...new Set(this.product.map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this. selected_sub_segment)}));
+
             this.strategic_cell = [...new Set(this.product.map(item => item.strategic_cell_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_strategic_cell)}));
             this.brands  = [...new Set(this.product.map(item => item.brand_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand)}));
             this.retailers = [...new Set(this.product.map(item => item.account_name))].map(e=>({"value" : e,"checked" : (e===this.selected_retailer)}));
             this.brands_format = [...new Set(this.product.map(item => item.brand_format_filter))].map(e=>({"value" : e,"checked" : (e===this.selected_brand_format)}));
-            this.categories = [...new Set(this.product.map(item => item.corporate_segment))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
+            this.categories = [...new Set(this.product.map(item => item.category))].map(e=>({"value" : e,"checked" : (e===this.selected_category)}));
     
 
         }
@@ -585,8 +601,18 @@ export class PromoOptimizerComponent implements OnInit {
 
     }
     _optimize(formdata){
-        // if(thi)
-
+        // // if(thi)
+        // debugger
+        for(var i=0; i<formdata.cost_share.length;i++){
+            if(formdata.cost_share[i] > 1){
+                formdata.cost_share[i] = formdata.cost_share[i]/100;
+            }
+        }
+        for(var i=0; i<formdata.volume_on_deal.length;i++){
+            if(formdata.volume_on_deal[i] > 1){
+                formdata.volume_on_deal[i] = formdata.volume_on_deal[i]/100;
+            }
+        }
         this.optimize.optimizeResult(formdata).subscribe(data=>{
             if(data['opt_pop_up_flag_final'] == 0){
             this.handleInfeasible()
@@ -629,7 +655,7 @@ export class PromoOptimizerComponent implements OnInit {
                 this.toastr.error('Set Objective function to optimize ');
                 return
             }
-            if(this.form_value['mars_tpr'].length == 0){
+            if(this.form_value['mars_promo_price'].length == 0){
                 this.toastr.error('Please select atleast one promotion');
                 return
     
@@ -668,11 +694,12 @@ export class PromoOptimizerComponent implements OnInit {
         }
     }
     saveScenario($event){
+        // debugger
         let p:Product = this.product.find(d=>(d.account_name == this.selected_retailer && d.product_group == this.selected_product))!
         let data_response = this.optimizer_response.optimal
         console.log(data_response , "data response")
         let data;
-        let keys_to_keep = ["Optimum_Promo" , "Coinvestment" , "week","Mechanic"]
+        let keys_to_keep = ["Optimum_Promo" , "Cost_Share" , "week","Promo_Activity","Volume_On_Deal"]
 
         data=data_response.map(element => Object.assign({}, ...keys_to_keep.map(key => ({[key]: element[key]}))))
         let obj = {
@@ -723,6 +750,7 @@ export class PromoOptimizerComponent implements OnInit {
 
     }
     receiveMessage($event: any) {
+        // debugger
         console.log('recieved');
         if($event == 'Optimize'){
             this.optimize.optimizeResult(this.get_optimizer_form()).subscribe(data=>{
@@ -749,9 +777,14 @@ export class PromoOptimizerComponent implements OnInit {
                 
             }else{
                 if(!this.selected_retailer || this.selected_retailer == "Retailers"){
-                    this.toastr.error("Set retailer to simulate")
-                    // this.closeModal($event)
-                    return
+                    if($event == 'load-scenario-promosimulator'){
+                        this.loadScenarioPopuptitle = 'Load scenario'
+                        this.openModal($event);
+                    }else if($event == 'compare-promo-scenario'){
+                        this.openModal($event);
+                    }else{
+                        this.toastr.error("Set retailer to simulate")
+                    }
                 }else{
                     this.openModal($event);
                 }
@@ -782,7 +815,7 @@ export class PromoOptimizerComponent implements OnInit {
             "strategic_cell" : product?.strategic_cell_filter,
             "product_group" : product?.product_group,
             "objective_function" : "MAC",
-            "mars_tpr" : "",
+            "mars_promo_price" : "",
             "cost_share" : 0,
             "config_gsv": false,
             "config_mac": false,
